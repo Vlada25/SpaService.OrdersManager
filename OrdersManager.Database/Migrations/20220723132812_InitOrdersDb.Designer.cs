@@ -12,7 +12,7 @@ using OrdersManager.Database;
 namespace OrdersManager.Database.Migrations
 {
     [DbContext(typeof(OrdersManagerDbContext))]
-    [Migration("20220723085552_InitOrdersDb")]
+    [Migration("20220723132812_InitOrdersDb")]
     partial class InitOrdersDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,15 @@ namespace OrdersManager.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Feedbacks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("2afd95c0-06f6-4a4f-9395-20f17a1e6214"),
+                            Comment = "Good",
+                            Mark = 5,
+                            OrderId = new Guid("dd3511a8-4397-45e8-8188-ea572f9c6baf")
+                        });
                 });
 
             modelBuilder.Entity("OrdersManager.Domain.Models.Order", b =>
@@ -60,6 +69,14 @@ namespace OrdersManager.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("dd3511a8-4397-45e8-8188-ea572f9c6baf"),
+                            ClientId = new Guid("e62c8c60-2128-4f50-ae7d-a36876ad2811"),
+                            ScheduleId = new Guid("11ae77ab-8cbd-407b-bf00-ff761ba9e9f7")
+                        });
                 });
 #pragma warning restore 612, 618
         }

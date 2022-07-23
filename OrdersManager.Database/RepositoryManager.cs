@@ -16,6 +16,11 @@ namespace OrdersManager.Database
         private IOrdersRepository _ordersRepository;
         private IFeedbacksRepository _feedbacksRepository;
 
+        public RepositoryManager(OrdersManagerDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         public IOrdersRepository OrdersRepository
         {
             get
@@ -39,7 +44,6 @@ namespace OrdersManager.Database
                 return _feedbacksRepository;
             }
         }
-
 
         public void Save() => _dbContext.SaveChanges();
     }

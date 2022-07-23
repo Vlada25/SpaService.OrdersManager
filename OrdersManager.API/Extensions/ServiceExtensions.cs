@@ -28,7 +28,7 @@ namespace OrdersManager.API.Extensions
                     b.MigrationsAssembly("OrdersManager.Database")));
         }
 
-        public static void ConfigureDbManagers(this IServiceCollection services)
+        public static void ConfigureRepositoryManager(this IServiceCollection services)
         {
             services.AddScoped<IRepositoryManager, RepositoryManager>();
         }

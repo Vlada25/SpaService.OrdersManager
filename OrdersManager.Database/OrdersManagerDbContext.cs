@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OrdersManager.Domain.Configuration;
 using OrdersManager.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,11 @@ namespace OrdersManager.Database
 
         public DbSet<Order> Orders { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new OrdersConfig());
+            modelBuilder.ApplyConfiguration(new FeedbacksConfig());
+        }
     }
 }
