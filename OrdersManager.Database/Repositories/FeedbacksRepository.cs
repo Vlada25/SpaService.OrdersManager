@@ -26,4 +26,3 @@ namespace OrdersManager.Database.Repositories
         public void Delete(Feedback entity) => DeleteEntity(entity);
     }
 }
-}
