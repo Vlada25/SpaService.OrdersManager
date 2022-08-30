@@ -15,6 +15,7 @@ namespace OrdersManager.Database
 
         private IOrdersRepository _ordersRepository;
         private IFeedbacksRepository _feedbacksRepository;
+        private ISchedulesRepository _schedulesRepository;
 
         public RepositoryManager(OrdersManagerDbContext dbContext)
         {
@@ -42,6 +43,18 @@ namespace OrdersManager.Database
                     _feedbacksRepository = new FeedbacksRepository(_dbContext);
                 }
                 return _feedbacksRepository;
+            }
+        }
+
+        public ISchedulesRepository SchedulesRepository
+        {
+            get
+            {
+                if (_schedulesRepository == null)
+                {
+                    _schedulesRepository = new SchedulesRepository(_dbContext);
+                }
+                return _schedulesRepository;
             }
         }
 

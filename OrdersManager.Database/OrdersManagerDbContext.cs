@@ -16,11 +16,12 @@ namespace OrdersManager.Database
 
         public DbSet<Order> Orders { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new OrdersConfig());
-            modelBuilder.ApplyConfiguration(new FeedbacksConfig());
+            //modelBuilder.ApplyConfiguration(new OrdersConfig());
+            //modelBuilder.ApplyConfiguration(new FeedbacksConfig());
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OrdersManager.Domain.Models;
@@ -78,7 +79,7 @@ namespace OrdersManager.API.Controllers
             _mapper.Map(order, orderEntity);
             _repository.Save();
 
-            return Ok("Entity was updated");
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
@@ -94,7 +95,7 @@ namespace OrdersManager.API.Controllers
             _repository.OrdersRepository.Delete(order);
             _repository.Save();
 
-            return Ok("Entity was deleted");
+            return NoContent();
         }
     }
 }

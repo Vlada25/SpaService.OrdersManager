@@ -11,6 +11,7 @@ namespace OrdersManager.Interfaces
     {
         IOrdersRepository OrdersRepository { get; }
         IFeedbacksRepository FeedbacksRepository { get; }
+        ISchedulesRepository SchedulesRepository { get; }
 
         void Save();
     }

@@ -5,6 +5,12 @@ using OrdersManager.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5030); // to listen for incoming http connection on port 5001
+    options.ListenAnyIP(7030, configure => configure.UseHttps()); // to listen for incoming https connection on port 7001
+});
+
 // Add services to the container.
 builder.Services.ConfigureRepositoryManager();
 builder.Services.AddControllers(config =>

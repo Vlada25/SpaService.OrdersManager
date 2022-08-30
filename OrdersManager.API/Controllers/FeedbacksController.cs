@@ -78,7 +78,7 @@ namespace OrdersManager.API.Controllers
             _mapper.Map(feedback, feedbackEntity);
             _repository.Save();
 
-            return Ok("Entity was updated");
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
@@ -94,7 +94,7 @@ namespace OrdersManager.API.Controllers
             _repository.FeedbacksRepository.Delete(feedback);
             _repository.Save();
 
-            return Ok("Entity was deleted");
+            return NoContent();
         }
     }
 }

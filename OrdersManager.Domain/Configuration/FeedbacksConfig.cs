@@ -17,10 +17,6 @@ namespace OrdersManager.Domain.Configuration
             {
                 new Feedback
                 {
-                    Id = new Guid("2afd95c0-06f6-4a4f-9395-20f17a1e6214"),
-                    Comment = "Good",
-                    Mark = 5,
-                    OrderId = new Guid("dd3511a8-4397-45e8-8188-ea572f9c6baf")
                 }
             });
         }
