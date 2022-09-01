@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OrdersManager.Domain.Configuration;
 using OrdersManager.Domain.Models;
 using System;
 using System.Collections.Generic;
