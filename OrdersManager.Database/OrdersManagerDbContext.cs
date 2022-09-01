@@ -19,6 +19,48 @@ namespace OrdersManager.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Order
+            modelBuilder.Entity<Order>().Property(p => p.Id)
+                .IsRequired().HasMaxLength(36);
+
+            modelBuilder.Entity<Order>().Property(p => p.ScheduleId)
+                .IsRequired().HasMaxLength(36);
+
+            modelBuilder.Entity<Order>().Property(p => p.ClientId)
+                .IsRequired().HasMaxLength(36);
+
+
+            // Feedback
+            modelBuilder.Entity<Feedback>().Property(p => p.Id)
+                .IsRequired().HasMaxLength(36);
+
+            modelBuilder.Entity<Feedback>().Property(p => p.Mark).IsRequired();
+
+            modelBuilder.Entity<Feedback>().Property(p => p.OrderId)
+                .IsRequired().HasMaxLength(36);
+
+            modelBuilder.Entity<Feedback>().HasOne(f => f.Order);
+
+
+            // Schedule
+            modelBuilder.Entity<Schedule>().Property(p => p.Id)
+                .IsRequired().HasMaxLength(36);
+
+            modelBuilder.Entity<Schedule>().Property(p => p.MasterId)
+                .IsRequired().HasMaxLength(36);
+
+            modelBuilder.Entity<Schedule>().Property(p => p.ServiceId)
+                .IsRequired().HasMaxLength(36);
+
+            modelBuilder.Entity<Schedule>().Property(p => p.StartTime).IsRequired();
+
+            modelBuilder.Entity<Schedule>().Property(p => p.EndTime).IsRequired();
+
+            modelBuilder.Entity<Schedule>().Property(p => p.Status).IsRequired();
+
+
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

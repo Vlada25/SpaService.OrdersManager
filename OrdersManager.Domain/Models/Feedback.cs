@@ -12,5 +12,6 @@ namespace OrdersManager.Domain.Models
         public string Comment { get; set; }
         public int Mark { get; set; }
         public Guid OrderId { get; set; }
+        public Order Order { get; set; }
     }
 }
