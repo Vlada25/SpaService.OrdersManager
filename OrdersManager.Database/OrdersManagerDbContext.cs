@@ -20,8 +20,6 @@ namespace OrdersManager.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfiguration(new OrdersConfig());
-            //modelBuilder.ApplyConfiguration(new FeedbacksConfig());
         }
     }
 }
