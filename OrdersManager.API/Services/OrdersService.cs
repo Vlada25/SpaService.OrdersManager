@@ -30,14 +30,14 @@ namespace OrdersManager.API.Services
 
         public bool Delete(Guid id)
         {
-            var feedback = _repositoryManager.OrdersRepository.GetById(id, trackChanges: false);
+            var entity = _repositoryManager.OrdersRepository.GetById(id, trackChanges: false);
 
-            if (feedback == null)
+            if (entity == null)
             {
                 return false;
             }
 
-            _repositoryManager.OrdersRepository.Delete(feedback);
+            _repositoryManager.OrdersRepository.Delete(entity);
             _repositoryManager.Save();
 
             return true;
