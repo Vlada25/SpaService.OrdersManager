@@ -12,7 +12,7 @@ builder.WebHost.ConfigureKestrel(options =>
 });
 
 // Add services to the container.
-builder.Services.ConfigureRepositoryManager();
+builder.Services.ConfigureDbServices();
 builder.Services.AddControllers(config =>
 {
     config.RespectBrowserAcceptHeader = true;

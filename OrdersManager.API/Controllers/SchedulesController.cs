@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrdersManager.Domain.Models;
 using OrdersManager.DTO.Schedule;
 using OrdersManager.Interfaces;
+using OrdersManager.Interfaces.Services;
 
 namespace OrdersManager.API.Controllers
 {
@@ -11,29 +12,26 @@ namespace OrdersManager.API.Controllers
     [ApiController]
     public class SchedulesController : ControllerBase
     {
-        private readonly IRepositoryManager _repository;
-        private readonly IMapper _mapper;
+        private readonly ISchedulesService _schedulesService;
 
-        public SchedulesController(IRepositoryManager repositoryManager, IMapper mapper)
+        public SchedulesController(ISchedulesService schedulesService)
         {
-            _repository = repositoryManager;
-            _mapper = mapper;
+            _schedulesService = schedulesService;
         }
 
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var schedules = _repository.SchedulesRepository.GetAll(trackChanges: false);
-            var schedulesDto = _mapper.Map<IEnumerable<ScheduleDto>>(schedules);
+            var schedules = _schedulesService.GetAll();
 
-            return Ok(schedulesDto);
+            return Ok(schedules);
         }
 
         [HttpGet("{id}", Name = "ScheduleById")]
         public IActionResult Get(Guid id)
         {
-            var schedule = _repository.SchedulesRepository.GetById(id, trackChanges: false);
+            var schedule = _schedulesService.GetById(id);
 
             if (schedule == null)
             {
@@ -50,13 +48,10 @@ namespace OrdersManager.API.Controllers
         {
             if (schedule == null)
             {
-                return BadRequest("Object sent from user is null");
+                return BadRequest("Object sent from client is null");
             }
 
-            var scheduleEntity = _mapper.Map<Schedule>(schedule);
-
-            _repository.SchedulesRepository.Create(scheduleEntity);
-            _repository.Save();
+            var scheduleEntity = _schedulesService.Create(schedule);
 
             return CreatedAtRoute("ScheduleById", new { id = scheduleEntity.Id }, scheduleEntity);
         }
@@ -66,18 +61,15 @@ namespace OrdersManager.API.Controllers
         {
             if (schedule == null)
             {
-                return BadRequest("Object sent from user is null");
+                return BadRequest("Object sent from client is null");
             }
 
-            var scheduleEntity = _repository.SchedulesRepository.GetById(schedule.Id, trackChanges: true);
+            var isEntityFound = _schedulesService.Update(schedule);
 
-            if (scheduleEntity == null)
+            if (!isEntityFound)
             {
                 return NotFound($"Entity with id: {schedule.Id} doesn't exist in datebase");
             }
-
-            _mapper.Map(schedule, scheduleEntity);
-            _repository.Save();
 
             return NoContent();
         }
@@ -85,15 +77,12 @@ namespace OrdersManager.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
-            var schedule = _repository.SchedulesRepository.GetById(id, trackChanges: false);
+            var isEntityFound = _schedulesService.Delete(id);
 
-            if (schedule == null)
+            if (!isEntityFound)
             {
                 return NotFound($"Entity with id: {id} doesn't exist in the database.");
             }
-
-            _repository.SchedulesRepository.Delete(schedule);
-            _repository.Save();
 
             return NoContent();
         }

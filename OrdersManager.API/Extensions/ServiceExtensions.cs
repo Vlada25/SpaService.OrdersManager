@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OrdersManager.API.Services;
 using OrdersManager.Database;
 using OrdersManager.Interfaces;
+using OrdersManager.Interfaces.Services;
 
 namespace OrdersManager.API.Extensions
 {
@@ -28,9 +30,13 @@ namespace OrdersManager.API.Extensions
                     b.MigrationsAssembly("OrdersManager.Database")));
         }
 
-        public static void ConfigureRepositoryManager(this IServiceCollection services)
+        public static void ConfigureDbServices(this IServiceCollection services)
         {
             services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+            services.AddScoped<IFeedbacksService, FeedbacksService>();
+            services.AddScoped<IOrdersService, OrdersService>();
+            services.AddScoped<ISchedulesService, SchedulesService>();
         }
     }
 }

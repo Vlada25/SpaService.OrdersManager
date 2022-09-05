@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrdersManager.Domain.Models;
 using OrdersManager.DTO.Feedback;
 using OrdersManager.Interfaces;
+using OrdersManager.Interfaces.Services;
 
 namespace OrdersManager.API.Controllers
 {
@@ -11,20 +12,18 @@ namespace OrdersManager.API.Controllers
     [ApiController]
     public class FeedbacksController : ControllerBase
     {
-        private readonly IRepositoryManager _repository;
-        private readonly IMapper _mapper;
+        private readonly IFeedbacksService _feedbacksService;
 
-        public FeedbacksController(IRepositoryManager repositoryManager, IMapper mapper)
+        public FeedbacksController(IFeedbacksService feedbacksService)
         {
-            _repository = repositoryManager;
-            _mapper = mapper;
+            _feedbacksService = feedbacksService;
         }
 
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var feedbacks = _repository.FeedbacksRepository.GetAll(trackChanges: false);
+            var feedbacks = _feedbacksService.GetAll();
 
             return Ok(feedbacks);
         }
@@ -32,7 +31,7 @@ namespace OrdersManager.API.Controllers
         [HttpGet("{id}", Name = "FeedbackById")]
         public IActionResult Get(Guid id)
         {
-            var feedback = _repository.FeedbacksRepository.GetById(id, trackChanges: false);
+            var feedback = _feedbacksService.GetById(id);
 
             if (feedback == null)
             {
@@ -52,10 +51,7 @@ namespace OrdersManager.API.Controllers
                 return BadRequest("Object sent from client is null");
             }
 
-            var feedbackEntity = _mapper.Map<Feedback>(feedback);
-
-            _repository.FeedbacksRepository.Create(feedbackEntity);
-            _repository.Save();
+            var feedbackEntity = _feedbacksService.Create(feedback);
 
             return CreatedAtRoute("FeedbackById", new { id = feedbackEntity.Id }, feedbackEntity);
         }
@@ -68,15 +64,12 @@ namespace OrdersManager.API.Controllers
                 return BadRequest("Object sent from client is null");
             }
 
-            var feedbackEntity = _repository.FeedbacksRepository.GetById(feedback.Id, trackChanges: true);
+            var isEntityFound = _feedbacksService.Update(feedback);
 
-            if (feedbackEntity == null)
+            if (!isEntityFound)
             {
                 return NotFound($"Entity with id: {feedback.Id} doesn't exist in datebase");
             }
-
-            _mapper.Map(feedback, feedbackEntity);
-            _repository.Save();
 
             return NoContent();
         }
@@ -84,15 +77,12 @@ namespace OrdersManager.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
-            var feedback = _repository.FeedbacksRepository.GetById(id, trackChanges: false);
+            var isEntityFound = _feedbacksService.Delete(id);
 
-            if (feedback == null)
+            if (!isEntityFound)
             {
                 return NotFound($"Entity with id: {id} doesn't exist in the database.");
             }
-
-            _repository.FeedbacksRepository.Delete(feedback);
-            _repository.Save();
 
             return NoContent();
         }
