@@ -11,5 +11,7 @@ namespace OrdersManager.DTO.Order
         public Guid Id { get; set; }
         public Guid ClientId { get; set; }
         public Guid ScheduleId { get; set; }
+        public string ClientSurmane { get; set; }
+        public string ClientName { get; set; }
     }
 }

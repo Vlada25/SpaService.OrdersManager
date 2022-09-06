@@ -18,7 +18,12 @@ namespace OrdersManager.Database.Migrations
                     ServiceId = table.Column<Guid>(type: "uuid", nullable: false),
                     StartTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     EndTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false)
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    MasterSurname = table.Column<string>(type: "text", nullable: false),
+                    MasterName = table.Column<string>(type: "text", nullable: false),
+                    ServiceName = table.Column<string>(type: "text", nullable: false),
+                    ServicePrice = table.Column<decimal>(type: "numeric", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,7 +36,9 @@ namespace OrdersManager.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ClientId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ScheduleId = table.Column<Guid>(type: "uuid", nullable: false)
+                    ScheduleId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClientSurname = table.Column<string>(type: "text", nullable: false),
+                    ClientName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

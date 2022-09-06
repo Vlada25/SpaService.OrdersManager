@@ -12,7 +12,7 @@ using OrdersManager.Database;
 namespace OrdersManager.Database.Migrations
 {
     [DbContext(typeof(OrdersManagerDbContext))]
-    [Migration("20220906130030_InitDb")]
+    [Migration("20220906135336_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,6 +56,14 @@ namespace OrdersManager.Database.Migrations
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("ClientName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClientSurname")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid>("ScheduleId")
                         .HasColumnType("uuid");
 
@@ -73,14 +81,33 @@ namespace OrdersManager.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("MasterId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("MasterName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("MasterSurname")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid>("ServiceId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("ServiceName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("ServicePrice")
+                        .HasColumnType("numeric");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("timestamp with time zone");
