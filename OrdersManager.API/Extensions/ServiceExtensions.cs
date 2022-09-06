@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrdersManager.API.Services;
+using OrdersManager.API.Services.Logging;
 using OrdersManager.Database;
 using OrdersManager.Interfaces;
+using OrdersManager.Interfaces.Logging;
 using OrdersManager.Interfaces.Services;
 
 namespace OrdersManager.API.Extensions
@@ -37,6 +39,16 @@ namespace OrdersManager.API.Extensions
             services.AddScoped<IFeedbacksService, FeedbacksService>();
             services.AddScoped<IOrdersService, OrdersService>();
             services.AddScoped<ISchedulesService, SchedulesService>();
+
+            services.AddSingleton<ILoggingService, HttpLoggingService>();
         }
+
+        public static void ConfigureConstants(this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            string host = configuration.GetValue<string>("Host");
+
+            services.AddSingleton(host);
+        } 
     }
 }

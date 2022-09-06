@@ -64,6 +64,9 @@ namespace OrdersManager.Database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ScheduleId")
+                        .IsUnique();
+
                     b.ToTable("Orders");
                 });
 
@@ -99,12 +102,34 @@ namespace OrdersManager.Database.Migrations
             modelBuilder.Entity("OrdersManager.Domain.Models.Feedback", b =>
                 {
                     b.HasOne("OrdersManager.Domain.Models.Order", "Order")
-                        .WithMany()
+                        .WithMany("Feedbacks")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("OrdersManager.Domain.Models.Order", b =>
+                {
+                    b.HasOne("OrdersManager.Domain.Models.Schedule", "Schedule")
+                        .WithOne("Order")
+                        .HasForeignKey("OrdersManager.Domain.Models.Order", "ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Schedule");
+                });
+
+            modelBuilder.Entity("OrdersManager.Domain.Models.Order", b =>
+                {
+                    b.Navigation("Feedbacks");
+                });
+
+            modelBuilder.Entity("OrdersManager.Domain.Models.Schedule", b =>
+                {
+                    b.Navigation("Order")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

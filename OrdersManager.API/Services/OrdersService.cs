@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using OrdersManager.Domain.Models;
+using OrdersManager.Domain.Models.Logging;
 using OrdersManager.DTO.Order;
 using OrdersManager.Interfaces;
+using OrdersManager.Interfaces.Logging;
 using OrdersManager.Interfaces.Services;
 
 namespace OrdersManager.API.Services
@@ -10,11 +12,14 @@ namespace OrdersManager.API.Services
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
+        private readonly ILoggingService _httpLoggingService;
 
         public OrdersService(IRepositoryManager repositoryManager,
+            ILoggingService httpLoggingService,
             IMapper mapper)
         {
             _repositoryManager = repositoryManager;
+            _httpLoggingService = httpLoggingService;
             _mapper = mapper;
         }
 
@@ -24,6 +29,8 @@ namespace OrdersManager.API.Services
 
             _repositoryManager.OrdersRepository.Create(entity);
             _repositoryManager.Save();
+
+            _httpLoggingService.SendLogMessage(entity, OrderAction.Created);
 
             return entity;
         }
@@ -39,6 +46,8 @@ namespace OrdersManager.API.Services
 
             _repositoryManager.OrdersRepository.Delete(entity);
             _repositoryManager.Save();
+
+            _httpLoggingService.SendLogMessage(entity, OrderAction.Deleted);
 
             return true;
         }

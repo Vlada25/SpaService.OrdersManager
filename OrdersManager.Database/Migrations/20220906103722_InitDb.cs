@@ -5,11 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OrdersManager.Database.Migrations
 {
-    public partial class InitDatabase : Migration
+    public partial class InitDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+<<<<<<<< HEAD:OrdersManager.Database/Migrations/20220901094019_InitDatabase.cs
                 name: "Orders",
                 columns: table => new
                 {
@@ -23,6 +24,8 @@ namespace OrdersManager.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+========
+>>>>>>>> feature/add-fluent-API:OrdersManager.Database/Migrations/20220906103722_InitDb.cs
                 name: "Schedules",
                 columns: table => new
                 {
@@ -39,6 +42,7 @@ namespace OrdersManager.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+<<<<<<<< HEAD:OrdersManager.Database/Migrations/20220901094019_InitDatabase.cs
                 name: "Feedbacks",
                 columns: table => new
                 {
@@ -46,6 +50,34 @@ namespace OrdersManager.Database.Migrations
                     Comment = table.Column<string>(type: "text", nullable: false),
                     Mark = table.Column<int>(type: "integer", nullable: false),
                     OrderId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false)
+========
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClientId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ScheduleId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_Schedules_ScheduleId",
+                        column: x => x.ScheduleId,
+                        principalTable: "Schedules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Feedbacks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Comment = table.Column<string>(type: "text", nullable: false),
+                    Mark = table.Column<int>(type: "integer", nullable: false),
+                    OrderId = table.Column<Guid>(type: "uuid", nullable: false)
+>>>>>>>> feature/add-fluent-API:OrdersManager.Database/Migrations/20220906103722_InitDb.cs
                 },
                 constraints: table =>
                 {
@@ -62,6 +94,15 @@ namespace OrdersManager.Database.Migrations
                 name: "IX_Feedbacks_OrderId",
                 table: "Feedbacks",
                 column: "OrderId");
+<<<<<<<< HEAD:OrdersManager.Database/Migrations/20220901094019_InitDatabase.cs
+========
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_ScheduleId",
+                table: "Orders",
+                column: "ScheduleId",
+                unique: true);
+>>>>>>>> feature/add-fluent-API:OrdersManager.Database/Migrations/20220906103722_InitDb.cs
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
