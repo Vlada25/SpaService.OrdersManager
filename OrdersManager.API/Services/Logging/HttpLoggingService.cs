@@ -4,16 +4,17 @@ using OrdersManager.Interfaces.Logging;
 
 namespace OrdersManager.API.Services.Logging
 {
-    public class HttpLoggingService : IHttpLoggingService
+    public class HttpLoggingService : ILoggingService
     {
         private readonly HttpClient _httpClient = new HttpClient();
-        private readonly string _loggingHost = "https://localhost:7113/api/Logs/Create";
+        private readonly string _loggingHost;
 
-        public HttpLoggingService()
+        public HttpLoggingService(string host)
         {
+            _loggingHost = host + "/Logs/Create";
         }
 
-        public void CreateLogMessage(Order order, OrderAction action)
+        public void SendLogMessage(Order order, OrderAction action)
         {
             LogMessageForCreation logMessage = new LogMessageForCreation();
 

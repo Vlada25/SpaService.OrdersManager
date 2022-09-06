@@ -12,10 +12,10 @@ namespace OrdersManager.API.Services
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
-        private readonly IHttpLoggingService _httpLoggingService;
+        private readonly ILoggingService _httpLoggingService;
 
         public OrdersService(IRepositoryManager repositoryManager,
-            IHttpLoggingService httpLoggingService,
+            ILoggingService httpLoggingService,
             IMapper mapper)
         {
             _repositoryManager = repositoryManager;
@@ -30,7 +30,7 @@ namespace OrdersManager.API.Services
             _repositoryManager.OrdersRepository.Create(entity);
             _repositoryManager.Save();
 
-            _httpLoggingService.CreateLogMessage(entity, OrderAction.Created);
+            _httpLoggingService.SendLogMessage(entity, OrderAction.Created);
 
             return entity;
         }
@@ -47,7 +47,7 @@ namespace OrdersManager.API.Services
             _repositoryManager.OrdersRepository.Delete(entity);
             _repositoryManager.Save();
 
-            _httpLoggingService.CreateLogMessage(entity, OrderAction.Deleted);
+            _httpLoggingService.SendLogMessage(entity, OrderAction.Deleted);
 
             return true;
         }

@@ -40,7 +40,15 @@ namespace OrdersManager.API.Extensions
             services.AddScoped<IOrdersService, OrdersService>();
             services.AddScoped<ISchedulesService, SchedulesService>();
 
-            services.AddScoped<IHttpLoggingService, HttpLoggingService>();
+            services.AddSingleton<ILoggingService, HttpLoggingService>();
         }
+
+        public static void ConfigureConstants(this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            string host = configuration.GetValue<string>("Host");
+
+            services.AddSingleton(host);
+        } 
     }
 }

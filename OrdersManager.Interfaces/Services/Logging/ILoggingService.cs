@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace OrdersManager.Interfaces.Logging
 {
-    public interface IHttpLoggingService
+    public interface ILoggingService
     {
-        void CreateLogMessage(Order order, OrderAction action);
+        void SendLogMessage(Order order, OrderAction action);
     }
 }
