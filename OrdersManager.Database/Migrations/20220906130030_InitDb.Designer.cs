@@ -12,13 +12,8 @@ using OrdersManager.Database;
 namespace OrdersManager.Database.Migrations
 {
     [DbContext(typeof(OrdersManagerDbContext))]
-<<<<<<<< HEAD:OrdersManager.Database/Migrations/20220901094019_InitDatabase.Designer.cs
-    [Migration("20220901094019_InitDatabase")]
-    partial class InitDatabase
-========
-    [Migration("20220906103722_InitDb")]
+    [Migration("20220906130030_InitDb")]
     partial class InitDb
->>>>>>>> feature/add-fluent-API:OrdersManager.Database/Migrations/20220906103722_InitDb.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,7 +28,6 @@ namespace OrdersManager.Database.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<string>("Comment")
@@ -44,7 +38,6 @@ namespace OrdersManager.Database.Migrations
                         .HasColumnType("integer");
 
                     b.Property<Guid>("OrderId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -58,15 +51,12 @@ namespace OrdersManager.Database.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ClientId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ScheduleId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -81,18 +71,15 @@ namespace OrdersManager.Database.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("MasterId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ServiceId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("StartTime")
@@ -109,19 +96,13 @@ namespace OrdersManager.Database.Migrations
             modelBuilder.Entity("OrdersManager.Domain.Models.Feedback", b =>
                 {
                     b.HasOne("OrdersManager.Domain.Models.Order", "Order")
-<<<<<<<< HEAD:OrdersManager.Database/Migrations/20220901094019_InitDatabase.Designer.cs
-                        .WithMany()
-========
                         .WithMany("Feedbacks")
->>>>>>>> feature/add-fluent-API:OrdersManager.Database/Migrations/20220906103722_InitDb.Designer.cs
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
                 });
-<<<<<<<< HEAD:OrdersManager.Database/Migrations/20220901094019_InitDatabase.Designer.cs
-========
 
             modelBuilder.Entity("OrdersManager.Domain.Models.Order", b =>
                 {
@@ -144,7 +125,6 @@ namespace OrdersManager.Database.Migrations
                     b.Navigation("Order")
                         .IsRequired();
                 });
->>>>>>>> feature/add-fluent-API:OrdersManager.Database/Migrations/20220906103722_InitDb.Designer.cs
 #pragma warning restore 612, 618
         }
     }

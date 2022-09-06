@@ -10,28 +10,12 @@ namespace OrdersManager.Database.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-<<<<<<<< HEAD:OrdersManager.Database/Migrations/20220901094019_InitDatabase.cs
-                name: "Orders",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
-                    ClientId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
-                    ScheduleId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-========
->>>>>>>> feature/add-fluent-API:OrdersManager.Database/Migrations/20220906103722_InitDb.cs
                 name: "Schedules",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
-                    MasterId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
-                    ServiceId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    MasterId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ServiceId = table.Column<Guid>(type: "uuid", nullable: false),
                     StartTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     EndTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
@@ -42,15 +26,6 @@ namespace OrdersManager.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-<<<<<<<< HEAD:OrdersManager.Database/Migrations/20220901094019_InitDatabase.cs
-                name: "Feedbacks",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
-                    Comment = table.Column<string>(type: "text", nullable: false),
-                    Mark = table.Column<int>(type: "integer", nullable: false),
-                    OrderId = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false)
-========
                 name: "Orders",
                 columns: table => new
                 {
@@ -77,7 +52,6 @@ namespace OrdersManager.Database.Migrations
                     Comment = table.Column<string>(type: "text", nullable: false),
                     Mark = table.Column<int>(type: "integer", nullable: false),
                     OrderId = table.Column<Guid>(type: "uuid", nullable: false)
->>>>>>>> feature/add-fluent-API:OrdersManager.Database/Migrations/20220906103722_InitDb.cs
                 },
                 constraints: table =>
                 {
@@ -94,15 +68,12 @@ namespace OrdersManager.Database.Migrations
                 name: "IX_Feedbacks_OrderId",
                 table: "Feedbacks",
                 column: "OrderId");
-<<<<<<<< HEAD:OrdersManager.Database/Migrations/20220901094019_InitDatabase.cs
-========
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_ScheduleId",
                 table: "Orders",
                 column: "ScheduleId",
                 unique: true);
->>>>>>>> feature/add-fluent-API:OrdersManager.Database/Migrations/20220906103722_InitDb.cs
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -111,10 +82,10 @@ namespace OrdersManager.Database.Migrations
                 name: "Feedbacks");
 
             migrationBuilder.DropTable(
-                name: "Schedules");
+                name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Schedules");
         }
     }
 }

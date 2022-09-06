@@ -26,7 +26,6 @@ namespace OrdersManager.Database.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<string>("Comment")
@@ -37,7 +36,6 @@ namespace OrdersManager.Database.Migrations
                         .HasColumnType("integer");
 
                     b.Property<Guid>("OrderId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -51,15 +49,12 @@ namespace OrdersManager.Database.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ClientId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ScheduleId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -74,18 +69,15 @@ namespace OrdersManager.Database.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("MasterId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ServiceId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("StartTime")
