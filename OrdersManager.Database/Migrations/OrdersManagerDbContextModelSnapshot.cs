@@ -26,7 +26,6 @@ namespace OrdersManager.Database.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<string>("Comment")
@@ -37,7 +36,6 @@ namespace OrdersManager.Database.Migrations
                         .HasColumnType("integer");
 
                     b.Property<Guid>("OrderId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -51,18 +49,18 @@ namespace OrdersManager.Database.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ClientId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ScheduleId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ScheduleId")
+                        .IsUnique();
 
                     b.ToTable("Orders");
                 });
@@ -71,18 +69,15 @@ namespace OrdersManager.Database.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("MasterId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ServiceId")
-                        .HasMaxLength(36)
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("StartTime")
@@ -99,12 +94,34 @@ namespace OrdersManager.Database.Migrations
             modelBuilder.Entity("OrdersManager.Domain.Models.Feedback", b =>
                 {
                     b.HasOne("OrdersManager.Domain.Models.Order", "Order")
-                        .WithMany()
+                        .WithMany("Feedbacks")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("OrdersManager.Domain.Models.Order", b =>
+                {
+                    b.HasOne("OrdersManager.Domain.Models.Schedule", "Schedule")
+                        .WithOne("Order")
+                        .HasForeignKey("OrdersManager.Domain.Models.Order", "ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Schedule");
+                });
+
+            modelBuilder.Entity("OrdersManager.Domain.Models.Order", b =>
+                {
+                    b.Navigation("Feedbacks");
+                });
+
+            modelBuilder.Entity("OrdersManager.Domain.Models.Schedule", b =>
+                {
+                    b.Navigation("Order")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
