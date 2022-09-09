@@ -13,7 +13,6 @@ namespace OrdersManager.Domain.Models
         public Guid ServiceId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public OrderStatus Status { get; set; }
         public string MasterSurname { get; set; }
         public string MasterName { get; set; }
         public string ServiceName { get; set; }

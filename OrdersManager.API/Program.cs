@@ -20,6 +20,7 @@ builder.Services.AddControllers(config =>
 }).AddNewtonsoftJson();
 
 builder.Services.ConfigureConstants(builder.Configuration);
+//builder.Services.ConfigureMessageBroker();
 
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();

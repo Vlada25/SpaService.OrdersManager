@@ -26,6 +26,8 @@ namespace OrdersManager.Database
 
             modelBuilder.Entity<Order>().Property(p => p.ClientId).IsRequired();
 
+            modelBuilder.Entity<Order>().Property(p => p.Status).IsRequired();
+
             modelBuilder.Entity<Order>().HasOne(o => o.Schedule).WithOne(s => s.Order);
 
 
@@ -49,8 +51,6 @@ namespace OrdersManager.Database
             modelBuilder.Entity<Schedule>().Property(p => p.StartTime).IsRequired();
 
             modelBuilder.Entity<Schedule>().Property(p => p.EndTime).IsRequired();
-
-            modelBuilder.Entity<Schedule>().Property(p => p.Status).IsRequired();
 
 
 

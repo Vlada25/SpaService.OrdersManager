@@ -29,6 +29,8 @@ namespace OrdersManager.Domain.Extensions
                     return OrderStatus.InProcess;
                 case "Done":
                     return OrderStatus.Done;
+                case "Canceled":
+                    return OrderStatus.Canceled;
                 default:
                     throw new Exception("Such status of order not found");
             }

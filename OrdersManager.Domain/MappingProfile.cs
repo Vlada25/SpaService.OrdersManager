@@ -17,19 +17,19 @@ namespace OrdersManager.Domain
         public MappingProfile()
         {
             CreateMap<Feedback, FeedbackDto>();
-            CreateMap<Order, OrderDto>();
-            CreateMap<Schedule, ScheduleDto>()
+            CreateMap<Order, OrderDto>()
                 .ForMember(sch => sch.Status, opt => opt.MapFrom(x => EnumExtensions.GetDisplayName(x.Status)));
+            CreateMap<Schedule, ScheduleDto>();
 
             CreateMap<FeedbackForCreationDto, Feedback>();
-            CreateMap<OrderForCreationDto, Order>();
-            CreateMap<ScheduleForCreationDto, Schedule>()
+            CreateMap<OrderForCreationDto, Order>()
                 .ForMember(sch => sch.Status, opt => opt.MapFrom(x => EnumExtensions.SetOrderStatus(x.Status)));
+            CreateMap<ScheduleForCreationDto, Schedule>();
 
             CreateMap<FeedbackForUpdateDto, Feedback>();
-            CreateMap<OrderForUpdateDto, Order>();
-            CreateMap<ScheduleForUpdateDto, Schedule>()
+            CreateMap<OrderForUpdateDto, Order>()
                 .ForMember(sch => sch.Status, opt => opt.MapFrom(x => EnumExtensions.SetOrderStatus(x.Status)));
+            CreateMap<ScheduleForUpdateDto, Schedule>();
         }
     }
 }

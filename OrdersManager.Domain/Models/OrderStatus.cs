@@ -16,6 +16,9 @@ namespace OrdersManager.Domain.Models
         InProcess,
 
         [Display(Name = "Done")]
-        Done
+        Done,
+
+        [Display(Name = "Canceled")]
+        Canceled
     }
 }

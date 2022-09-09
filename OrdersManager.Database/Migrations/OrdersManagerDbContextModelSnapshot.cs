@@ -65,6 +65,9 @@ namespace OrdersManager.Database.Migrations
                     b.Property<Guid>("ScheduleId")
                         .HasColumnType("uuid");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ScheduleId")
@@ -109,9 +112,6 @@ namespace OrdersManager.Database.Migrations
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

@@ -29,7 +29,7 @@ namespace OrdersManager.API.Services.Logging
             }
 
             logMessage.Details = $"Schedule Id: {order.ScheduleId}; Client Id: {order.ClientId}";
-            logMessage.DateTime = DateTime.Now;
+            logMessage.DateTime = DateTime.UtcNow;
             logMessage.Severity = "Info";
 
             _httpClient.PostAsJsonAsync(_loggingHost, logMessage);

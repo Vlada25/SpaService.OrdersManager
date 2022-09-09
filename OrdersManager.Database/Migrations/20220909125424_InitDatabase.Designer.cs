@@ -12,8 +12,8 @@ using OrdersManager.Database;
 namespace OrdersManager.Database.Migrations
 {
     [DbContext(typeof(OrdersManagerDbContext))]
-    [Migration("20220906135336_InitDb")]
-    partial class InitDb
+    [Migration("20220909125424_InitDatabase")]
+    partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,6 +67,9 @@ namespace OrdersManager.Database.Migrations
                     b.Property<Guid>("ScheduleId")
                         .HasColumnType("uuid");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ScheduleId")
@@ -111,9 +114,6 @@ namespace OrdersManager.Database.Migrations
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

@@ -5,6 +5,8 @@ using OrdersManager.Database;
 using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Logging;
 using OrdersManager.Interfaces.Services;
+using Plain.RabbitMQ;
+using RabbitMQ.Client;
 
 namespace OrdersManager.API.Extensions
 {
@@ -49,6 +51,17 @@ namespace OrdersManager.API.Extensions
             string host = configuration.GetValue<string>("Host");
 
             services.AddSingleton(host);
-        } 
+        }
+
+        /*
+        public static void ConfigureMessageBroker(this IServiceCollection services)
+        {
+            services.AddSingleton<IConnectionProvider>(new ConnectionProvider("amqp://guest:guest@localhost:5672"));
+            services.AddScoped<ISubscriber>(x => new Subscriber(x.GetService<IConnectionProvider>(),
+                "report_exchange",
+                "report_queue",
+                "report.*",
+                ExchangeType.Topic));
+        }*/
     }
 }
