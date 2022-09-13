@@ -3,6 +3,7 @@ using OrdersManager.Domain.Models;
 using OrdersManager.DTO.Schedule;
 using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Services;
+using SpaService.Domain.Messages.Person;
 
 namespace OrdersManager.API.Services
 {
@@ -26,6 +27,21 @@ namespace OrdersManager.API.Services
             _repositoryManager.Save();
 
             return entity;
+        }
+
+        public bool DeleteByMasterId(Guid masterId)
+        {
+            var entity = _repositoryManager.SchedulesRepository.GetByMasterId(masterId);
+
+            if (entity == null)
+            {
+                return false;
+            }
+
+            _repositoryManager.SchedulesRepository.Delete(entity);
+            _repositoryManager.Save();
+
+            return true;
         }
 
         public bool Delete(Guid id)
@@ -59,6 +75,23 @@ namespace OrdersManager.API.Services
             }
 
             _mapper.Map(entityForUpdate, entity);
+            _repositoryManager.Save();
+
+            return true;
+        }
+
+        public bool UpdateMaster(MasterUpdated master)
+        {
+            var entity = _repositoryManager.SchedulesRepository.GetByMasterId(master.Id);
+
+            if (entity == null)
+            {
+                return false;
+            }
+
+            entity.MasterName = master.Name;
+            entity.MasterSurname = master.Surname;
+
             _repositoryManager.Save();
 
             return true;

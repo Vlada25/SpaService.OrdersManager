@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using OrdersManager.API.Services;
 using OrdersManager.API.Services.Logging;
 using OrdersManager.Database;
 using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Logging;
 using OrdersManager.Interfaces.Services;
+using OrdersManager.Messaging;
 using Plain.RabbitMQ;
 using RabbitMQ.Client;
 
@@ -42,7 +44,7 @@ namespace OrdersManager.API.Extensions
             services.AddScoped<IOrdersService, OrdersService>();
             services.AddScoped<ISchedulesService, SchedulesService>();
 
-            services.AddSingleton<ILoggingService, HttpLoggingService>();
+            services.AddScoped<ILoggingService, MesBrokerLoggingService>();
         }
 
         public static void ConfigureConstants(this IServiceCollection services,
@@ -53,15 +55,24 @@ namespace OrdersManager.API.Extensions
             services.AddSingleton(host);
         }
 
-        /*
-        public static void ConfigureMessageBroker(this IServiceCollection services)
+        public static void ConfigureMessageBroker(this IServiceCollection services,
+            IConfiguration configuration)
         {
-            services.AddSingleton<IConnectionProvider>(new ConnectionProvider("amqp://guest:guest@localhost:5672"));
-            services.AddScoped<ISubscriber>(x => new Subscriber(x.GetService<IConnectionProvider>(),
-                "report_exchange",
-                "report_queue",
-                "report.*",
-                ExchangeType.Topic));
-        }*/
+            var messagingConfig = configuration.GetSection("Messaging");
+            services.Configure<MessagingConfig>(messagingConfig);
+
+            services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host("localhost", "/", h => {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+
+                    cfg.ConfigureEndpoints(context);
+                });
+            });
+        }
     }
 }

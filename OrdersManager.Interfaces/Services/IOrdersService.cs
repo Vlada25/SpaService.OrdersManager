@@ -1,5 +1,6 @@
 ﻿using OrdersManager.Domain.Models;
 using OrdersManager.DTO.Order;
+using SpaService.Domain.Messages.Person;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace OrdersManager.Interfaces.Services
         Order GetById(Guid id);
         Order Create(OrderForCreationDto entityForCreation);
         bool Delete(Guid id);
+        bool DeleteByClientId(Guid clientId);
         bool Update(OrderForUpdateDto entityForUpdate);
+        bool UpdateClient(ClientUpdated client);
     }
 }

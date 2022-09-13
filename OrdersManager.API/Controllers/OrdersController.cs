@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +15,13 @@ namespace OrdersManager.API.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrdersService _ordersService;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public OrdersController(IOrdersService ordersService)
+        public OrdersController(IOrdersService ordersService,
+            IPublishEndpoint publishEndpoint)
         {
             _ordersService = ordersService;
+            _publishEndpoint = publishEndpoint;
         }
 
 

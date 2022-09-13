@@ -22,5 +22,8 @@ namespace OrdersManager.Database.Repositories
             GetByCondition(fm => fm.Id.Equals(id), trackChanges).SingleOrDefault();
 
         public void Delete(Order entity) => DeleteEntity(entity);
+
+        public Order GetByClientId(Guid clientId) =>
+            GetByCondition(fm => fm.ClientId.Equals(clientId), false).SingleOrDefault();
     }
 }

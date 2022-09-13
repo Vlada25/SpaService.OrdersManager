@@ -22,5 +22,8 @@ namespace OrdersManager.Database.Repositories
             GetByCondition(fm => fm.Id.Equals(id), trackChanges).SingleOrDefault();
 
         public void Delete(Schedule entity) => DeleteEntity(entity);
+
+        public Schedule GetByMasterId(Guid masterId) =>
+            GetByCondition(fm => fm.MasterId.Equals(masterId), false).SingleOrDefault();
     }
 }

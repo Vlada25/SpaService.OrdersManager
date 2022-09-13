@@ -1,5 +1,6 @@
 ﻿using OrdersManager.Domain.Models;
 using OrdersManager.DTO.Schedule;
+using SpaService.Domain.Messages.Person;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace OrdersManager.Interfaces.Services
         Schedule GetById(Guid id);
         Schedule Create(ScheduleForCreationDto entityForCreation);
         bool Delete(Guid id);
+        bool DeleteByMasterId(Guid masterId);
         bool Update(ScheduleForUpdateDto entityForUpdate);
+        bool UpdateMaster(MasterUpdated master);
     }
 }

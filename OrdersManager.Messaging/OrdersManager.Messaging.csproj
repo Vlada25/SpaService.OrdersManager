@@ -7,9 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.7" />
+    <PackageReference Include="MassTransit" Version="8.0.6" />
     <PackageReference Include="SpaService.Domain" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OrdersManager.Interfaces\OrdersManager.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

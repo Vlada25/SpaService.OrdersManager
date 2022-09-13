@@ -1,6 +1,7 @@
 ﻿using OrdersManager.Domain.Models;
-using OrdersManager.Domain.Models.Logging;
 using OrdersManager.Interfaces.Logging;
+using SpaService.Domain.Messages.LogMessages;
+using SpaService.Domain.Messages.Logs;
 
 namespace OrdersManager.API.Services.Logging
 {
@@ -14,7 +15,7 @@ namespace OrdersManager.API.Services.Logging
             _loggingHost = host + "/Logs/Create";
         }
 
-        public void SendLogMessage(Order order, OrderAction action)
+        public async Task SendLogMessage(Order order, OrderAction action)
         {
             LogMessageForCreation logMessage = new LogMessageForCreation();
 
@@ -32,7 +33,7 @@ namespace OrdersManager.API.Services.Logging
             logMessage.DateTime = DateTime.UtcNow;
             logMessage.Severity = "Info";
 
-            _httpClient.PostAsJsonAsync(_loggingHost, logMessage);
+            await _httpClient.PostAsJsonAsync(_loggingHost, logMessage);
         }
     }
 }

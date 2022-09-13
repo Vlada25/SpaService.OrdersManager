@@ -1,5 +1,5 @@
 ﻿using OrdersManager.Domain.Models;
-using OrdersManager.Domain.Models.Logging;
+using SpaService.Domain.Messages.LogMessages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +10,6 @@ namespace OrdersManager.Interfaces.Logging
 {
     public interface ILoggingService
     {
-        void SendLogMessage(Order order, OrderAction action);
+        Task SendLogMessage(Order order, OrderAction action);
     }
 }
