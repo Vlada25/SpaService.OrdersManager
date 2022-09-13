@@ -1,12 +1,5 @@
-﻿using OrdersManager.Database;
-using OrdersManager.Database.Repositories;
-using OrdersManager.Domain.Models;
+﻿using OrdersManager.Domain.Models;
 using OrdersManager.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrdersManager.Database.Repositories
 {

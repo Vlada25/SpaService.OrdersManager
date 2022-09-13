@@ -1,11 +1,6 @@
-﻿using AutoMapper;
-using MassTransit;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using MassTransit;
 using Microsoft.AspNetCore.Mvc;
-using OrdersManager.Domain.Models;
 using OrdersManager.DTO.Order;
-using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Services;
 
 namespace OrdersManager.API.Controllers

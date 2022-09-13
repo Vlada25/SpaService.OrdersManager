@@ -4,11 +4,6 @@ using OrdersManager.Domain.Models;
 using OrdersManager.DTO.Feedback;
 using OrdersManager.DTO.Order;
 using OrdersManager.DTO.Schedule;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrdersManager.Domain
 {

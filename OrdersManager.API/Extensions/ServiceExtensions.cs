@@ -6,9 +6,8 @@ using OrdersManager.Database;
 using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Logging;
 using OrdersManager.Interfaces.Services;
-using OrdersManager.Messaging;
-using Plain.RabbitMQ;
-using RabbitMQ.Client;
+using OrdersManager.Messaging.Consumers;
+using SpaService.Domain.Configuration;
 
 namespace OrdersManager.API.Extensions
 {
@@ -63,11 +62,17 @@ namespace OrdersManager.API.Extensions
 
             services.AddMassTransit(x =>
             {
+                x.AddConsumer<ClientDeletedConsumer>();
+                x.AddConsumer<ClientUpdatedConsumer>();
+                x.AddConsumer<MasterUpdatedConsumer>();
+                x.AddConsumer<MasterDeletedConsumer>();
+
                 x.UsingRabbitMq((context, cfg) =>
                 {
-                    cfg.Host("localhost", "/", h => {
-                        h.Username("guest");
-                        h.Password("guest");
+                    cfg.Host(messagingConfig["Hostname"], "/", h =>
+                    {
+                        h.Username(messagingConfig["UserName"]);
+                        h.Password(messagingConfig["Password"]);
                     });
 
                     cfg.ConfigureEndpoints(context);

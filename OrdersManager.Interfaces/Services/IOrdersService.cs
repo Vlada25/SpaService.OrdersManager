@@ -1,11 +1,6 @@
 ﻿using OrdersManager.Domain.Models;
 using OrdersManager.DTO.Order;
 using SpaService.Domain.Messages.Person;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrdersManager.Interfaces.Services
 {

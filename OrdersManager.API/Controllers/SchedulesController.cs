@@ -1,9 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using OrdersManager.Domain.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using OrdersManager.DTO.Schedule;
-using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Services;
 
 namespace OrdersManager.API.Controllers
