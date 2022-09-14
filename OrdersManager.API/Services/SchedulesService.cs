@@ -4,6 +4,7 @@ using OrdersManager.DTO.Schedule;
 using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Services;
 using SpaService.Domain.Messages.Person;
+using SpaService.Domain.Messages.Service;
 
 namespace OrdersManager.API.Services
 {
@@ -31,14 +32,18 @@ namespace OrdersManager.API.Services
 
         public bool DeleteByMasterId(Guid masterId)
         {
-            var entity = _repositoryManager.SchedulesRepository.GetByMasterId(masterId);
+            var entities = _repositoryManager.SchedulesRepository.GetByMasterId(masterId);
 
-            if (entity == null)
+            if (entities == null)
             {
                 return false;
             }
 
-            _repositoryManager.SchedulesRepository.Delete(entity);
+            foreach (var entity in entities)
+            {
+                _repositoryManager.SchedulesRepository.Delete(entity);
+            }
+
             _repositoryManager.Save();
 
             return true;
@@ -82,17 +87,78 @@ namespace OrdersManager.API.Services
 
         public bool UpdateMaster(MasterUpdated master)
         {
-            var entity = _repositoryManager.SchedulesRepository.GetByMasterId(master.Id);
+            var entities = _repositoryManager.SchedulesRepository.GetByMasterId(master.Id);
 
-            if (entity == null)
+            if (entities == null)
             {
                 return false;
             }
 
-            entity.MasterName = master.Name;
-            entity.MasterSurname = master.Surname;
+            foreach (var entity in entities)
+            {
+                entity.MasterName = master.Name;
+                entity.MasterSurname = master.Surname;
+            }
 
             _repositoryManager.Save();
+
+            return true;
+        }
+
+        public bool DeleteByServiceId(Guid serviceId)
+        {
+            var entities = _repositoryManager.SchedulesRepository.GetByServiceId(serviceId);
+
+            if (entities == null)
+            {
+                return false;
+            }
+
+            foreach (var entity in entities)
+            {
+                _repositoryManager.SchedulesRepository.Delete(entity);
+            }
+
+            _repositoryManager.Save();
+
+            return true;
+        }
+
+        public IEnumerable<Schedule> GetByServiceId(Guid serviceId) =>
+            _repositoryManager.SchedulesRepository.GetByServiceId(serviceId);
+
+        public bool UpdateService(ServiceUpdated service)
+        {
+            var schedules = _repositoryManager.SchedulesRepository.GetByServiceId(service.Id);
+
+            if (schedules == null)
+            {
+                return false;
+            }
+
+            if (service.Address == null)
+            {
+                foreach (var schedule in schedules)
+                {
+                    schedule.ServiceName = service.Name;
+                }
+            }
+            else if (service.Name == null)
+            {
+                foreach (var schedule in schedules)
+                {
+                    schedule.Address = service.Address;
+                }
+            }
+            else
+            {
+                foreach (var schedule in schedules)
+                {
+                    schedule.Address = service.Address;
+                    schedule.ServiceName = service.Name;
+                    schedule.ServicePrice = service.Price;
+                }
+            }
 
             return true;
         }

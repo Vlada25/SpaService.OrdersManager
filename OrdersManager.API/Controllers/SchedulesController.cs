@@ -82,5 +82,18 @@ namespace OrdersManager.API.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{serviceId}")]
+        public IActionResult DeleteByServiceId(Guid serviceId)
+        {
+            var isEntityFound = _schedulesService.DeleteByServiceId(serviceId);
+
+            if (!isEntityFound)
+            {
+                return NotFound($"Entity with id: {serviceId} doesn't exist in the database.");
+            }
+
+            return NoContent();
+        }
     }
 }

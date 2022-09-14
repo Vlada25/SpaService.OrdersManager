@@ -6,7 +6,7 @@ namespace OrdersManager.Interfaces.Repositories
     {
         IEnumerable<Order> GetAll(bool trackChanges);
         Order GetById(Guid id, bool trackChanges);
-        Order GetByClientId(Guid clientId);
+        IEnumerable<Order> GetByClientId(Guid clientId);
         void Create(Order entity);
         void Delete(Order entity);
     }

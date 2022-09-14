@@ -14,11 +14,14 @@ namespace OrdersManager.Database.Repositories
             GetAllEntities(trackChanges);
 
         public Schedule GetById(Guid id, bool trackChanges) =>
-            GetByCondition(fm => fm.Id.Equals(id), trackChanges).SingleOrDefault();
+            GetByCondition(sch => sch.Id.Equals(id), trackChanges).SingleOrDefault();
 
         public void Delete(Schedule entity) => DeleteEntity(entity);
 
-        public Schedule GetByMasterId(Guid masterId) =>
-            GetByCondition(fm => fm.MasterId.Equals(masterId), false).SingleOrDefault();
+        public IEnumerable<Schedule> GetByMasterId(Guid masterId) =>
+            GetByCondition(sch => sch.MasterId.Equals(masterId), false);
+
+        public IEnumerable<Schedule> GetByServiceId(Guid serviceId) =>
+            GetByCondition(sch => sch.ServiceId.Equals(serviceId), false);
     }
 }

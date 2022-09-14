@@ -13,30 +13,30 @@ namespace OrdersManager.API.Services
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
-        private readonly ILoggingService _httpLoggingService;
+        private readonly ILoggingService _loggingService;
 
         public OrdersService(IRepositoryManager repositoryManager,
-            ILoggingService httpLoggingService,
+            ILoggingService loggingService,
             IMapper mapper)
         {
             _repositoryManager = repositoryManager;
-            _httpLoggingService = httpLoggingService;
+            _loggingService = loggingService;
             _mapper = mapper;
         }
 
-        public Order Create(OrderForCreationDto entityForCreation)
+        public async Task<Order> Create(OrderForCreationDto entityForCreation)
         {
             var entity = _mapper.Map<Order>(entityForCreation);
 
             _repositoryManager.OrdersRepository.Create(entity);
             _repositoryManager.Save();
 
-            _httpLoggingService.SendLogMessage(entity, OrderAction.Created);
+            await _loggingService.SendLogMessage(entity, OrderAction.Created);
 
             return entity;
         }
 
-        public bool Delete(Guid id)
+        public async Task<bool> Delete(Guid id)
         {
             var entity = _repositoryManager.OrdersRepository.GetById(id, trackChanges: false);
 
@@ -48,24 +48,28 @@ namespace OrdersManager.API.Services
             _repositoryManager.OrdersRepository.Delete(entity);
             _repositoryManager.Save();
 
-            _httpLoggingService.SendLogMessage(entity, OrderAction.Deleted);
+            await _loggingService.SendLogMessage(entity, OrderAction.Deleted);
 
             return true;
         }
 
         public bool DeleteByClientId(Guid clientId)
         {
-            var entity = _repositoryManager.OrdersRepository.GetByClientId(clientId);
+            var entities = _repositoryManager.OrdersRepository.GetByClientId(clientId);
 
-            if (entity == null)
+            if (entities == null)
             {
                 return false;
             }
 
-            _repositoryManager.OrdersRepository.Delete(entity);
-            _repositoryManager.Save();
+            foreach (var entity in entities)
+            {
+                _repositoryManager.OrdersRepository.Delete(entity);
 
-            _httpLoggingService.SendLogMessage(entity, OrderAction.Deleted);
+                _loggingService.SendLogMessage(entity, OrderAction.Deleted);
+            }
+
+            _repositoryManager.Save();
 
             return true;
         }
@@ -93,15 +97,18 @@ namespace OrdersManager.API.Services
 
         public bool UpdateClient(ClientUpdated client)
         {
-            var entity = _repositoryManager.OrdersRepository.GetByClientId(client.Id);
+            var entities = _repositoryManager.OrdersRepository.GetByClientId(client.Id);
 
-            if (entity == null)
+            if (entities == null)
             {
                 return false;
             }
 
-            entity.ClientName = client.Name;
-            entity.ClientSurname = client.Surname;
+            foreach (var entity in entities)
+            {
+                entity.ClientName = client.Name;
+                entity.ClientSurname = client.Surname;
+            }
 
             _repositoryManager.Save();
 

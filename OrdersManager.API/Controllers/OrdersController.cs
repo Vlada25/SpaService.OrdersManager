@@ -44,14 +44,14 @@ namespace OrdersManager.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] OrderForCreationDto order)
+        public async Task<IActionResult> Create([FromBody] OrderForCreationDto order)
         {
             if (order == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var orderEntity = _ordersService.Create(order);
+            var orderEntity = await _ordersService.Create(order);
 
             return CreatedAtRoute("OrderById", new { id = orderEntity.Id }, orderEntity);
         }
@@ -75,9 +75,9 @@ namespace OrdersManager.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var isEntityFound = _ordersService.Delete(id);
+            var isEntityFound = await _ordersService.Delete(id);
 
             if (!isEntityFound)
             {

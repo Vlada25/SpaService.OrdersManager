@@ -8,8 +8,8 @@ namespace OrdersManager.Interfaces.Services
     {
         IEnumerable<Order> GetAll();
         Order GetById(Guid id);
-        Order Create(OrderForCreationDto entityForCreation);
-        bool Delete(Guid id);
+        Task<Order> Create(OrderForCreationDto entityForCreation);
+        Task<bool> Delete(Guid id);
         bool DeleteByClientId(Guid clientId);
         bool Update(OrderForUpdateDto entityForUpdate);
         bool UpdateClient(ClientUpdated client);

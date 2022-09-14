@@ -6,7 +6,8 @@ namespace OrdersManager.Interfaces.Repositories
     {
         IEnumerable<Schedule> GetAll(bool trackChanges);
         Schedule GetById(Guid id, bool trackChanges);
-        Schedule GetByMasterId(Guid masterId);
+        IEnumerable<Schedule> GetByMasterId(Guid masterId);
+        IEnumerable<Schedule> GetByServiceId(Guid serviceId);
         void Create(Schedule entity);
         void Delete(Schedule entity);
     }

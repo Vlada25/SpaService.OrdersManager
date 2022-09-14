@@ -66,6 +66,8 @@ namespace OrdersManager.API.Extensions
                 x.AddConsumer<ClientUpdatedConsumer>();
                 x.AddConsumer<MasterUpdatedConsumer>();
                 x.AddConsumer<MasterDeletedConsumer>();
+                x.AddConsumer<ServiceDeletedConsumer>();
+                x.AddConsumer<ServiceUpdatedConsumer>();
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
