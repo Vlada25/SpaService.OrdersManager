@@ -4,10 +4,10 @@ namespace OrdersManager.Interfaces.Repositories
 {
     public interface IOrdersRepository
     {
-        IEnumerable<Order> GetAll(bool trackChanges);
-        Order GetById(Guid id, bool trackChanges);
-        IEnumerable<Order> GetByClientId(Guid clientId);
-        void Create(Order entity);
+        Task<IEnumerable<Order>> GetAll(bool trackChanges);
+        Task<Order> GetById(Guid id, bool trackChanges);
+        Task<IEnumerable<Order>> GetByClientId(Guid clientId);
+        Task Create(Order entity);
         void Delete(Order entity);
     }
 }

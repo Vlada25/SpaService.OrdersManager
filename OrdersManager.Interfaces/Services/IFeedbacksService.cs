@@ -5,10 +5,10 @@ namespace OrdersManager.Interfaces.Services
 {
     public interface IFeedbacksService
     {
-        IEnumerable<Feedback> GetAll();
-        Feedback GetById(Guid id);
-        Feedback Create(FeedbackForCreationDto entityForCreation);
-        bool Delete(Guid id);
-        bool Update(FeedbackForUpdateDto entityForUpdate);
+        Task<IEnumerable<Feedback>> GetAll();
+        Task<Feedback> GetById(Guid id);
+        Task<Feedback> Create(FeedbackForCreationDto entityForCreation);
+        Task<bool> Delete(Guid id);
+        Task<bool> Update(FeedbackForUpdateDto entityForUpdate);
     }
 }

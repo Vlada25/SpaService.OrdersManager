@@ -18,19 +18,18 @@ namespace OrdersManager.API.Services
             _mapper = mapper;
         }
 
-        public Feedback Create(FeedbackForCreationDto entityForCreation)
+        public async Task<Feedback> Create(FeedbackForCreationDto entityForCreation)
         {
             var entity = _mapper.Map<Feedback>(entityForCreation);
 
-            _repositoryManager.FeedbacksRepository.Create(entity);
-            _repositoryManager.Save();
+            await _repositoryManager.FeedbacksRepository.Create(entity);
 
             return entity;
         }
 
-        public bool Delete(Guid id)
+        public async Task<bool> Delete(Guid id)
         {
-            var entity = _repositoryManager.FeedbacksRepository.GetById(id, trackChanges: false);
+            var entity = await _repositoryManager.FeedbacksRepository.GetById(id, trackChanges: false);
 
             if (entity == null)
             {
@@ -38,20 +37,21 @@ namespace OrdersManager.API.Services
             }
 
             _repositoryManager.FeedbacksRepository.Delete(entity);
-            _repositoryManager.Save();
+
+            await _repositoryManager.Save();
 
             return true;
         }
 
-        public IEnumerable<Feedback> GetAll() =>
-            _repositoryManager.FeedbacksRepository.GetAll(trackChanges: false);
+        public async Task<IEnumerable<Feedback>> GetAll() =>
+            await _repositoryManager.FeedbacksRepository.GetAll(trackChanges: false);
 
-        public Feedback GetById(Guid id) =>
-            _repositoryManager.FeedbacksRepository.GetById(id, trackChanges: false);
+        public async Task<Feedback> GetById(Guid id) =>
+            await _repositoryManager.FeedbacksRepository.GetById(id, trackChanges: false);
 
-        public bool Update(FeedbackForUpdateDto entityForUpdate)
+        public async Task<bool> Update(FeedbackForUpdateDto entityForUpdate)
         {
-            var entity = _repositoryManager.FeedbacksRepository.GetById(entityForUpdate.Id, trackChanges: true);
+            var entity = await _repositoryManager.FeedbacksRepository.GetById(entityForUpdate.Id, trackChanges: true);
 
             if (entity == null)
             {
@@ -59,7 +59,8 @@ namespace OrdersManager.API.Services
             }
 
             _mapper.Map(entityForUpdate, entity);
-            _repositoryManager.Save();
+
+            await _repositoryManager.Save();
 
             return true;
         }

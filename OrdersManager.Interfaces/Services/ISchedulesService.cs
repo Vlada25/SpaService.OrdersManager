@@ -7,15 +7,15 @@ namespace OrdersManager.Interfaces.Services
 {
     public interface ISchedulesService
     {
-        IEnumerable<Schedule> GetAll();
-        Schedule GetById(Guid id);
-        IEnumerable<Schedule> GetByServiceId(Guid serviceId);
-        Schedule Create(ScheduleForCreationDto entityForCreation);
-        bool Delete(Guid id);
-        bool DeleteByMasterId(Guid masterId);
-        bool DeleteByServiceId(Guid serviceId);
-        bool Update(ScheduleForUpdateDto entityForUpdate);
-        bool UpdateMaster(MasterUpdated master);
-        bool UpdateService(ServiceUpdated service);
+        Task<IEnumerable<Schedule>> GetAll();
+        Task<Schedule> GetById(Guid id);
+        Task<IEnumerable<Schedule>> GetByServiceId(Guid serviceId);
+        Task<Schedule> Create(ScheduleForCreationDto entityForCreation);
+        Task<bool> Delete(Guid id);
+        Task<bool> DeleteByMasterId(Guid masterId);
+        Task<bool> DeleteByServiceId(Guid serviceId);
+        Task<bool> Update(ScheduleForUpdateDto entityForUpdate);
+        Task<bool> UpdateMaster(MasterUpdated master);
+        Task<bool> UpdateService(ServiceUpdated service);
     }
 }

@@ -57,9 +57,6 @@ namespace OrdersManager.API.Extensions
         public static void ConfigureMessageBroker(this IServiceCollection services,
             IConfiguration configuration)
         {
-            var messagingConfig = configuration.GetSection("Messaging");
-            services.Configure<MessagingConfig>(messagingConfig);
-
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<ClientDeletedConsumer>();
@@ -69,16 +66,7 @@ namespace OrdersManager.API.Extensions
                 x.AddConsumer<ServiceDeletedConsumer>();
                 x.AddConsumer<ServiceUpdatedConsumer>();
 
-                x.UsingRabbitMq((context, cfg) =>
-                {
-                    cfg.Host(messagingConfig["Hostname"], "/", h =>
-                    {
-                        h.Username(messagingConfig["UserName"]);
-                        h.Password(messagingConfig["Password"]);
-                    });
-
-                    cfg.ConfigureEndpoints(context);
-                });
+                MessageBrokerExtensions.ConfigureRabbitMq(configuration, x);
             });
         }
     }

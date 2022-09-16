@@ -1,4 +1,5 @@
-﻿using OrdersManager.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using OrdersManager.Domain.Models;
 using OrdersManager.Interfaces.Repositories;
 
 namespace OrdersManager.Database.Repositories
@@ -8,20 +9,20 @@ namespace OrdersManager.Database.Repositories
         public SchedulesRepository(OrdersManagerDbContext dbContext)
             : base(dbContext) { }
 
-        public void Create(Schedule entity) => CreateEntity(entity);
+        public async Task Create(Schedule entity) => await CreateEntity(entity);
 
-        public IEnumerable<Schedule> GetAll(bool trackChanges) =>
-            GetAllEntities(trackChanges);
+        public async Task<IEnumerable<Schedule>> GetAll(bool trackChanges) =>
+            await GetAllEntities(trackChanges).ToListAsync();
 
-        public Schedule GetById(Guid id, bool trackChanges) =>
-            GetByCondition(sch => sch.Id.Equals(id), trackChanges).SingleOrDefault();
+        public async Task<Schedule> GetById(Guid id, bool trackChanges) =>
+            await GetByCondition(sch => sch.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
 
         public void Delete(Schedule entity) => DeleteEntity(entity);
 
-        public IEnumerable<Schedule> GetByMasterId(Guid masterId) =>
-            GetByCondition(sch => sch.MasterId.Equals(masterId), false);
+        public async Task<IEnumerable<Schedule>> GetByMasterId(Guid masterId) =>
+            await GetByCondition(sch => sch.MasterId.Equals(masterId), false).ToListAsync();
 
-        public IEnumerable<Schedule> GetByServiceId(Guid serviceId) =>
-            GetByCondition(sch => sch.ServiceId.Equals(serviceId), false);
+        public async Task<IEnumerable<Schedule>> GetByServiceId(Guid serviceId) =>
+            await GetByCondition(sch => sch.ServiceId.Equals(serviceId), false).ToListAsync();
     }
 }

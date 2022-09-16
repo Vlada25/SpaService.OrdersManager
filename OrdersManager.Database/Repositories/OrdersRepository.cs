@@ -1,4 +1,5 @@
-﻿using OrdersManager.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using OrdersManager.Domain.Models;
 using OrdersManager.Interfaces.Repositories;
 
 namespace OrdersManager.Database.Repositories
@@ -8,17 +9,17 @@ namespace OrdersManager.Database.Repositories
         public OrdersRepository(OrdersManagerDbContext dbContext)
             : base(dbContext) { }
 
-        public void Create(Order entity) => CreateEntity(entity);
+        public async Task Create(Order entity) => await CreateEntity(entity);
 
-        public IEnumerable<Order> GetAll(bool trackChanges) =>
-            GetAllEntities(trackChanges);
+        public async Task<IEnumerable<Order>> GetAll(bool trackChanges) =>
+            await GetAllEntities(trackChanges).ToListAsync();
 
-        public Order GetById(Guid id, bool trackChanges) =>
-            GetByCondition(fm => fm.Id.Equals(id), trackChanges).SingleOrDefault();
+        public async Task<Order> GetById(Guid id, bool trackChanges) =>
+            await GetByCondition(fm => fm.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
 
         public void Delete(Order entity) => DeleteEntity(entity);
 
-        public IEnumerable<Order> GetByClientId(Guid clientId) =>
-            GetByCondition(fm => fm.ClientId.Equals(clientId), false);
+        public async Task<IEnumerable<Order>> GetByClientId(Guid clientId) =>
+            await GetByCondition(fm => fm.ClientId.Equals(clientId), false).ToListAsync();
     }
 }

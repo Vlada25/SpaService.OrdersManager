@@ -10,28 +10,25 @@ namespace OrdersManager.API.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrdersService _ordersService;
-        private readonly IPublishEndpoint _publishEndpoint;
 
-        public OrdersController(IOrdersService ordersService,
-            IPublishEndpoint publishEndpoint)
+        public OrdersController(IOrdersService ordersService)
         {
             _ordersService = ordersService;
-            _publishEndpoint = publishEndpoint;
         }
 
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var orders = _ordersService.GetAll();
+            var orders = await _ordersService.GetAll();
 
             return Ok(orders);
         }
 
         [HttpGet("{id}", Name = "OrderById")]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var order = _ordersService.GetById(id);
+            var order = await _ordersService.GetById(id);
 
             if (order == null)
             {
@@ -57,14 +54,14 @@ namespace OrdersManager.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] OrderForUpdateDto order)
+        public async Task<IActionResult> Update([FromBody] OrderForUpdateDto order)
         {
             if (order == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var isEntityFound = _ordersService.Update(order);
+            var isEntityFound = await _ordersService.Update(order);
 
             if (!isEntityFound)
             {

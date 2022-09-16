@@ -8,6 +8,6 @@ namespace OrdersManager.Interfaces
         IFeedbacksRepository FeedbacksRepository { get; }
         ISchedulesRepository SchedulesRepository { get; }
 
-        void Save();
+        Task Save();
     }
 }

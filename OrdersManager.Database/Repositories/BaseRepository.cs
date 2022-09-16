@@ -13,9 +13,10 @@ namespace OrdersManager.Database.Repositories
             this.dbContext = dbContext;
         }
 
-        public void CreateEntity(T entity)
+        public async Task CreateEntity(T entity)
         {
-            dbContext.Set<T>().Add(entity);
+            await dbContext.Set<T>().AddAsync(entity);
+            await dbContext.SaveChangesAsync();
         }
 
         public void DeleteEntity(T entity)

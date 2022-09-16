@@ -1,4 +1,5 @@
-﻿using OrdersManager.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using OrdersManager.Domain.Models;
 using OrdersManager.Interfaces.Repositories;
 
 namespace OrdersManager.Database.Repositories
@@ -8,13 +9,13 @@ namespace OrdersManager.Database.Repositories
         public FeedbacksRepository(OrdersManagerDbContext dbContext)
             : base(dbContext) { }
 
-        public void Create(Feedback entity) => CreateEntity(entity);
+        public async Task Create(Feedback entity) => await CreateEntity(entity);
 
-        public IEnumerable<Feedback> GetAll(bool trackChanges) =>
-            GetAllEntities(trackChanges);
+        public async Task<IEnumerable<Feedback>> GetAll(bool trackChanges) =>
+            await GetAllEntities(trackChanges).ToListAsync();
 
-        public Feedback GetById(Guid id, bool trackChanges) =>
-            GetByCondition(fm => fm.Id.Equals(id), trackChanges).SingleOrDefault();
+        public async Task<Feedback> GetById(Guid id, bool trackChanges) =>
+            await GetByCondition(fm => fm.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
 
         public void Delete(Feedback entity) => DeleteEntity(entity);
     }

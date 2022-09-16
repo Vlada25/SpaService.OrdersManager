@@ -17,17 +17,17 @@ namespace OrdersManager.API.Controllers
 
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var feedbacks = _feedbacksService.GetAll();
+            var feedbacks = await _feedbacksService.GetAll();
 
             return Ok(feedbacks);
         }
 
         [HttpGet("{id}", Name = "FeedbackById")]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var feedback = _feedbacksService.GetById(id);
+            var feedback = await _feedbacksService.GetById(id);
 
             if (feedback == null)
             {
@@ -40,27 +40,27 @@ namespace OrdersManager.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] FeedbackForCreationDto feedback)
+        public async Task<IActionResult> Create([FromBody] FeedbackForCreationDto feedback)
         {
             if (feedback == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var feedbackEntity = _feedbacksService.Create(feedback);
+            var feedbackEntity = await _feedbacksService.Create(feedback);
 
             return CreatedAtRoute("FeedbackById", new { id = feedbackEntity.Id }, feedbackEntity);
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] FeedbackForUpdateDto feedback)
+        public async Task<IActionResult> Update([FromBody] FeedbackForUpdateDto feedback)
         {
             if (feedback == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var isEntityFound = _feedbacksService.Update(feedback);
+            var isEntityFound = await _feedbacksService.Update(feedback);
 
             if (!isEntityFound)
             {
@@ -71,9 +71,9 @@ namespace OrdersManager.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var isEntityFound = _feedbacksService.Delete(id);
+            var isEntityFound = await _feedbacksService.Delete(id);
 
             if (!isEntityFound)
             {

@@ -28,8 +28,7 @@ namespace OrdersManager.API.Services
         {
             var entity = _mapper.Map<Order>(entityForCreation);
 
-            _repositoryManager.OrdersRepository.Create(entity);
-            _repositoryManager.Save();
+            await _repositoryManager.OrdersRepository.Create(entity);
 
             await _loggingService.SendLogMessage(entity, OrderAction.Created);
 
@@ -38,7 +37,7 @@ namespace OrdersManager.API.Services
 
         public async Task<bool> Delete(Guid id)
         {
-            var entity = _repositoryManager.OrdersRepository.GetById(id, trackChanges: false);
+            var entity = await _repositoryManager.OrdersRepository.GetById(id, trackChanges: false);
 
             if (entity == null)
             {
@@ -46,16 +45,17 @@ namespace OrdersManager.API.Services
             }
 
             _repositoryManager.OrdersRepository.Delete(entity);
-            _repositoryManager.Save();
 
             await _loggingService.SendLogMessage(entity, OrderAction.Deleted);
+
+            await _repositoryManager.Save();
 
             return true;
         }
 
-        public bool DeleteByClientId(Guid clientId)
+        public async Task<bool> DeleteByClientId(Guid clientId)
         {
-            var entities = _repositoryManager.OrdersRepository.GetByClientId(clientId);
+            var entities = await _repositoryManager.OrdersRepository.GetByClientId(clientId);
 
             if (entities == null)
             {
@@ -66,23 +66,23 @@ namespace OrdersManager.API.Services
             {
                 _repositoryManager.OrdersRepository.Delete(entity);
 
-                _loggingService.SendLogMessage(entity, OrderAction.Deleted);
+                await _loggingService.SendLogMessage(entity, OrderAction.Deleted);
             }
 
-            _repositoryManager.Save();
+            await _repositoryManager.Save();
 
             return true;
         }
 
-        public IEnumerable<Order> GetAll() =>
-            _repositoryManager.OrdersRepository.GetAll(trackChanges: false);
+        public async Task<IEnumerable<Order>> GetAll() =>
+            await _repositoryManager.OrdersRepository.GetAll(trackChanges: false);
 
-        public Order GetById(Guid id) =>
-            _repositoryManager.OrdersRepository.GetById(id, trackChanges: false);
+        public async Task<Order> GetById(Guid id) =>
+            await _repositoryManager.OrdersRepository.GetById(id, trackChanges: false);
 
-        public bool Update(OrderForUpdateDto entityForUpdate)
+        public async Task<bool> Update(OrderForUpdateDto entityForUpdate)
         {
-            var entity = _repositoryManager.OrdersRepository.GetById(entityForUpdate.Id, trackChanges: true);
+            var entity = await _repositoryManager.OrdersRepository.GetById(entityForUpdate.Id, trackChanges: true);
 
             if (entity == null)
             {
@@ -90,14 +90,15 @@ namespace OrdersManager.API.Services
             }
 
             _mapper.Map(entityForUpdate, entity);
-            _repositoryManager.Save();
+
+            await _repositoryManager.Save();
 
             return true;
         }
 
-        public bool UpdateClient(ClientUpdated client)
+        public async Task<bool> UpdateClient(ClientUpdated client)
         {
-            var entities = _repositoryManager.OrdersRepository.GetByClientId(client.Id);
+            var entities = await _repositoryManager.OrdersRepository.GetByClientId(client.Id);
 
             if (entities == null)
             {
@@ -110,7 +111,7 @@ namespace OrdersManager.API.Services
                 entity.ClientSurname = client.Surname;
             }
 
-            _repositoryManager.Save();
+            await _repositoryManager.Save();
 
             return true;
         }

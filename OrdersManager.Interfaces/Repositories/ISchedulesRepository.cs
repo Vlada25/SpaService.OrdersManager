@@ -4,11 +4,11 @@ namespace OrdersManager.Interfaces.Repositories
 {
     public interface ISchedulesRepository
     {
-        IEnumerable<Schedule> GetAll(bool trackChanges);
-        Schedule GetById(Guid id, bool trackChanges);
-        IEnumerable<Schedule> GetByMasterId(Guid masterId);
-        IEnumerable<Schedule> GetByServiceId(Guid serviceId);
-        void Create(Schedule entity);
+        Task<IEnumerable<Schedule>> GetAll(bool trackChanges);
+        Task<Schedule> GetById(Guid id, bool trackChanges);
+        Task<IEnumerable<Schedule>> GetByMasterId(Guid masterId);
+        Task<IEnumerable<Schedule>> GetByServiceId(Guid serviceId);
+        Task Create(Schedule entity);
         void Delete(Schedule entity);
     }
 }

@@ -20,19 +20,19 @@ namespace OrdersManager.API.Services
             _mapper = mapper;
         }
 
-        public Schedule Create(ScheduleForCreationDto entityForCreation)
+        public async Task<Schedule> Create(ScheduleForCreationDto entityForCreation)
         {
             var entity = _mapper.Map<Schedule>(entityForCreation);
 
-            _repositoryManager.SchedulesRepository.Create(entity);
-            _repositoryManager.Save();
+            await _repositoryManager.SchedulesRepository.Create(entity);
+            await _repositoryManager.Save();
 
             return entity;
         }
 
-        public bool DeleteByMasterId(Guid masterId)
+        public async Task<bool> DeleteByMasterId(Guid masterId)
         {
-            var entities = _repositoryManager.SchedulesRepository.GetByMasterId(masterId);
+            var entities = await _repositoryManager.SchedulesRepository.GetByMasterId(masterId);
 
             if (entities == null)
             {
@@ -44,14 +44,14 @@ namespace OrdersManager.API.Services
                 _repositoryManager.SchedulesRepository.Delete(entity);
             }
 
-            _repositoryManager.Save();
+            await _repositoryManager.Save();
 
             return true;
         }
 
-        public bool Delete(Guid id)
+        public async Task<bool> Delete(Guid id)
         {
-            var entity = _repositoryManager.SchedulesRepository.GetById(id, trackChanges: false);
+            var entity = await _repositoryManager.SchedulesRepository.GetById(id, trackChanges: false);
 
             if (entity == null)
             {
@@ -59,20 +59,20 @@ namespace OrdersManager.API.Services
             }
 
             _repositoryManager.SchedulesRepository.Delete(entity);
-            _repositoryManager.Save();
+            await _repositoryManager.Save();
 
             return true;
         }
 
-        public IEnumerable<Schedule> GetAll() =>
-            _repositoryManager.SchedulesRepository.GetAll(trackChanges: false);
+        public async Task<IEnumerable<Schedule>> GetAll() =>
+            await _repositoryManager.SchedulesRepository.GetAll(trackChanges: false);
 
-        public Schedule GetById(Guid id) =>
-            _repositoryManager.SchedulesRepository.GetById(id, trackChanges: false);
+        public async Task<Schedule> GetById(Guid id) =>
+            await _repositoryManager.SchedulesRepository.GetById(id, trackChanges: false);
 
-        public bool Update(ScheduleForUpdateDto entityForUpdate)
+        public async Task<bool> Update(ScheduleForUpdateDto entityForUpdate)
         {
-            var entity = _repositoryManager.SchedulesRepository.GetById(entityForUpdate.Id, trackChanges: true);
+            var entity = await _repositoryManager.SchedulesRepository.GetById(entityForUpdate.Id, trackChanges: true);
 
             if (entity == null)
             {
@@ -80,14 +80,15 @@ namespace OrdersManager.API.Services
             }
 
             _mapper.Map(entityForUpdate, entity);
-            _repositoryManager.Save();
+
+            await _repositoryManager.Save();
 
             return true;
         }
 
-        public bool UpdateMaster(MasterUpdated master)
+        public async Task<bool> UpdateMaster(MasterUpdated master)
         {
-            var entities = _repositoryManager.SchedulesRepository.GetByMasterId(master.Id);
+            var entities = await _repositoryManager.SchedulesRepository.GetByMasterId(master.Id);
 
             if (entities == null)
             {
@@ -100,14 +101,14 @@ namespace OrdersManager.API.Services
                 entity.MasterSurname = master.Surname;
             }
 
-            _repositoryManager.Save();
+            await _repositoryManager.Save();
 
             return true;
         }
 
-        public bool DeleteByServiceId(Guid serviceId)
+        public async Task<bool> DeleteByServiceId(Guid serviceId)
         {
-            var entities = _repositoryManager.SchedulesRepository.GetByServiceId(serviceId);
+            var entities = await _repositoryManager.SchedulesRepository.GetByServiceId(serviceId);
 
             if (entities == null)
             {
@@ -119,46 +120,26 @@ namespace OrdersManager.API.Services
                 _repositoryManager.SchedulesRepository.Delete(entity);
             }
 
-            _repositoryManager.Save();
+            await _repositoryManager.Save();
 
             return true;
         }
 
-        public IEnumerable<Schedule> GetByServiceId(Guid serviceId) =>
-            _repositoryManager.SchedulesRepository.GetByServiceId(serviceId);
+        public async Task<IEnumerable<Schedule>> GetByServiceId(Guid serviceId) =>
+            await _repositoryManager.SchedulesRepository.GetByServiceId(serviceId);
 
-        public bool UpdateService(ServiceUpdated service)
+        public async Task<bool> UpdateService(ServiceUpdated service)
         {
-            var schedules = _repositoryManager.SchedulesRepository.GetByServiceId(service.Id);
+            var schedules = await _repositoryManager.SchedulesRepository.GetByServiceId(service.Id);
 
-            if (schedules == null)
+            foreach (var schedule in schedules)
             {
-                return false;
+                schedule.Address = service.Address;
+                schedule.ServiceName = service.Name;
+                schedule.ServicePrice = service.Price;
             }
 
-            if (service.Address == null)
-            {
-                foreach (var schedule in schedules)
-                {
-                    schedule.ServiceName = service.Name;
-                }
-            }
-            else if (service.Name == null)
-            {
-                foreach (var schedule in schedules)
-                {
-                    schedule.Address = service.Address;
-                }
-            }
-            else
-            {
-                foreach (var schedule in schedules)
-                {
-                    schedule.Address = service.Address;
-                    schedule.ServiceName = service.Name;
-                    schedule.ServicePrice = service.Price;
-                }
-            }
+            await _repositoryManager.Save();
 
             return true;
         }
