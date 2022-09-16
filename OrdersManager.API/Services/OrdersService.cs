@@ -30,7 +30,7 @@ namespace OrdersManager.API.Services
 
             await _repositoryManager.OrdersRepository.Create(entity);
 
-            await _loggingService.SendLogMessage(entity, OrderAction.Created);
+            await _loggingService.SendCreatedMessage(entity);
 
             return entity;
         }
@@ -46,7 +46,7 @@ namespace OrdersManager.API.Services
 
             _repositoryManager.OrdersRepository.Delete(entity);
 
-            await _loggingService.SendLogMessage(entity, OrderAction.Deleted);
+            await _loggingService.SendDeletedMessage(entity);
 
             await _repositoryManager.Save();
 
@@ -66,7 +66,7 @@ namespace OrdersManager.API.Services
             {
                 _repositoryManager.OrdersRepository.Delete(entity);
 
-                await _loggingService.SendLogMessage(entity, OrderAction.Deleted);
+                await _loggingService.SendDeletedMessage(entity);
             }
 
             await _repositoryManager.Save();
@@ -92,6 +92,8 @@ namespace OrdersManager.API.Services
             _mapper.Map(entityForUpdate, entity);
 
             await _repositoryManager.Save();
+
+            await _loggingService.SendUpdatedMessage(entity);
 
             return true;
         }

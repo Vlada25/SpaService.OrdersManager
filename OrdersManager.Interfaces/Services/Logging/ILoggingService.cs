@@ -5,6 +5,8 @@ namespace OrdersManager.Interfaces.Logging
 {
     public interface ILoggingService
     {
-        Task SendLogMessage(Order order, OrderAction action);
+        Task SendCreatedMessage(Order order);
+        Task SendUpdatedMessage(Order order);
+        Task SendDeletedMessage(Order order);
     }
 }

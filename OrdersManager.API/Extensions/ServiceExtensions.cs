@@ -43,7 +43,7 @@ namespace OrdersManager.API.Extensions
             services.AddScoped<IOrdersService, OrdersService>();
             services.AddScoped<ISchedulesService, SchedulesService>();
 
-            services.AddScoped<ILoggingService, MesBrokerLoggingService>();
+            services.AddScoped<ILoggingService, MessageBrokerLoggingService>();
         }
 
         public static void ConfigureConstants(this IServiceCollection services,
