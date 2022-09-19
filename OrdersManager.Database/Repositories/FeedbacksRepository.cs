@@ -18,5 +18,8 @@ namespace OrdersManager.Database.Repositories
             await GetByCondition(fm => fm.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
 
         public void Delete(Feedback entity) => DeleteEntity(entity);
+
+        public void Update(Feedback entity) =>
+            UpdateEntity(entity);
     }
 }

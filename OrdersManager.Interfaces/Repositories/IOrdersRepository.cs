@@ -9,5 +9,6 @@ namespace OrdersManager.Interfaces.Repositories
         Task<IEnumerable<Order>> GetByClientId(Guid clientId);
         Task Create(Order entity);
         void Delete(Order entity);
+        void Update(Order entity);
     }
 }

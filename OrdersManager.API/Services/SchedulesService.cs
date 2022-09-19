@@ -81,6 +81,7 @@ namespace OrdersManager.API.Services
 
             _mapper.Map(entityForUpdate, entity);
 
+            _repositoryManager.SchedulesRepository.Update(entity);
             await _repositoryManager.Save();
 
             return true;
@@ -99,6 +100,8 @@ namespace OrdersManager.API.Services
             {
                 entity.MasterName = master.Name;
                 entity.MasterSurname = master.Surname;
+
+                _repositoryManager.SchedulesRepository.Update(entity);
             }
 
             await _repositoryManager.Save();
@@ -137,6 +140,25 @@ namespace OrdersManager.API.Services
                 schedule.Address = service.Address;
                 schedule.ServiceName = service.Name;
                 schedule.ServicePrice = service.Price;
+
+                _repositoryManager.SchedulesRepository.Update(schedule);
+            }
+            
+            await _repositoryManager.Save();
+
+            return true;
+        }
+
+        public async Task<bool> UpdateSchedules(IEnumerable<Schedule> entities)
+        {
+            if (entities == null)
+            {
+                return false;
+            }
+
+            foreach (var entity in entities)
+            {
+                _repositoryManager.SchedulesRepository.Update(entity);
             }
 
             await _repositoryManager.Save();

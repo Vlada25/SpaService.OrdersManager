@@ -22,7 +22,14 @@ namespace OrdersManager.Messaging.Consumers
         {
             var message = context.Message;
 
-            await _schedulesService.DeleteByServiceId(message.Id);
+            var schedules = await _schedulesService.GetByServiceId(message.Id);
+
+            foreach (var schedule in schedules)
+            {
+                schedule.ServiceId = Guid.Empty;
+            }
+
+            await _schedulesService.UpdateSchedules(schedules);
         }
     }
 }

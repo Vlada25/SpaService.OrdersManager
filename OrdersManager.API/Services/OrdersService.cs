@@ -76,6 +76,9 @@ namespace OrdersManager.API.Services
         public async Task<IEnumerable<Order>> GetAll() =>
             await _repositoryManager.OrdersRepository.GetAll(trackChanges: false);
 
+        public async Task<IEnumerable<Order>> GetByClientId(Guid clientId) =>
+            await _repositoryManager.OrdersRepository.GetByClientId(clientId);
+
         public async Task<Order> GetById(Guid id) =>
             await _repositoryManager.OrdersRepository.GetById(id, trackChanges: false);
 
@@ -90,6 +93,7 @@ namespace OrdersManager.API.Services
 
             _mapper.Map(entityForUpdate, entity);
 
+            _repositoryManager.OrdersRepository.Update(entity);
             await _repositoryManager.Save();
 
             await _loggingService.SendUpdatedMessage(entity);
@@ -110,9 +114,33 @@ namespace OrdersManager.API.Services
             {
                 entity.ClientName = client.Name;
                 entity.ClientSurname = client.Surname;
+
+                _repositoryManager.OrdersRepository.Update(entity);
             }
 
             await _repositoryManager.Save();
+
+            return true;
+        }
+
+        public async Task<bool> UpdateOrders(IEnumerable<Order> entities)
+        {
+            if (entities == null)
+            {
+                return false;
+            }
+
+            foreach (var entity in entities)
+            {
+                _repositoryManager.OrdersRepository.Update(entity);
+            }
+
+            await _repositoryManager.Save();
+
+            foreach (Order entity in entities)
+            {
+                await _loggingService.SendUpdatedMessage(entity);
+            }
 
             return true;
         }

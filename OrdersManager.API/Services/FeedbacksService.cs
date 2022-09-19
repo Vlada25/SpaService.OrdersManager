@@ -60,6 +60,7 @@ namespace OrdersManager.API.Services
 
             _mapper.Map(entityForUpdate, entity);
 
+            _repositoryManager.FeedbacksRepository.Update(entity);
             await _repositoryManager.Save();
 
             return true;

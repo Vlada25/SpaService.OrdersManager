@@ -8,5 +8,6 @@ namespace OrdersManager.Interfaces.Repositories
         Task<Feedback> GetById(Guid id, bool trackChanges);
         Task Create(Feedback entity);
         void Delete(Feedback entity);
+        void Update(Feedback entity);
     }
 }

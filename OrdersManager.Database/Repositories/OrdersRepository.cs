@@ -21,5 +21,8 @@ namespace OrdersManager.Database.Repositories
 
         public async Task<IEnumerable<Order>> GetByClientId(Guid clientId) =>
             await GetByCondition(fm => fm.ClientId.Equals(clientId), false).ToListAsync();
+
+        public void Update(Order entity) =>
+            UpdateEntity(entity);
     }
 }

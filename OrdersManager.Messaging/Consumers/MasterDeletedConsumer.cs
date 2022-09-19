@@ -17,7 +17,14 @@ namespace OrdersManager.Messaging.Consumers
         {
             var message = context.Message;
 
-            await _schedulesService.DeleteByMasterId(message.Id);
+            var schedules = await _schedulesService.GetByServiceId(message.Id);
+
+            foreach (var schedule in schedules)
+            {
+                schedule.MasterId = Guid.Empty;
+            }
+
+            await _schedulesService.UpdateSchedules(schedules);
         }
     }
 }

@@ -8,10 +8,12 @@ namespace OrdersManager.Interfaces.Services
     {
         Task<IEnumerable<Order>> GetAll();
         Task<Order> GetById(Guid id);
+        Task<IEnumerable<Order>> GetByClientId(Guid clientId);
         Task<Order> Create(OrderForCreationDto entityForCreation);
         Task<bool> Delete(Guid id);
         Task<bool> DeleteByClientId(Guid clientId);
         Task<bool> Update(OrderForUpdateDto entityForUpdate);
+        Task<bool> UpdateOrders(IEnumerable<Order> entities);
         Task<bool> UpdateClient(ClientUpdated client);
     }
 }
