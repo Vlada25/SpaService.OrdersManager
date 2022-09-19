@@ -1,7 +1,6 @@
 ﻿using Microsoft.OpenApi.Extensions;
 using OrdersManager.Domain.Models;
 using OrdersManager.Interfaces.Logging;
-using SpaService.Domain.Messages.LogMessages;
 using SpaService.Domain.Messages.Logs;
 
 namespace OrdersManager.API.Services.Logging

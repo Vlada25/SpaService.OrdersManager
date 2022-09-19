@@ -1,5 +1,4 @@
 ﻿using OrdersManager.Domain.Models;
-using SpaService.Domain.Messages.LogMessages;
 
 namespace OrdersManager.Interfaces.Logging
 {

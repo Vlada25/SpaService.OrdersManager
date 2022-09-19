@@ -22,7 +22,7 @@ namespace OrdersManager.Messaging.Consumers
         {
             var message = context.Message;
 
-            _schedulesService.UpdateService(message);
+            await _schedulesService.UpdateService(message);
         }
     }
 }

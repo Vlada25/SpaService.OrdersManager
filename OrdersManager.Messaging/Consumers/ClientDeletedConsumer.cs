@@ -17,7 +17,7 @@ namespace OrdersManager.Messaging.Consumers
         {
             var message = context.Message;
 
-            _ordersService.DeleteByClientId(message.Id);
+            await _ordersService.DeleteByClientId(message.Id);
         }
     }
 }

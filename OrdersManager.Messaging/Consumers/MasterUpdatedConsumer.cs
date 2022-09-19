@@ -17,7 +17,7 @@ namespace OrdersManager.Messaging.Consumers
         {
             var message = context.Message;
 
-
+            await _schedulesService.UpdateMaster(message);
         }
     }
 }

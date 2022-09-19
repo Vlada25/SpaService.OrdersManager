@@ -17,7 +17,7 @@ namespace OrdersManager.Messaging.Consumers
         {
             var message = context.Message;
 
-            _ordersService.UpdateClient(message);
+            await _ordersService.UpdateClient(message);
         }
     }
 }

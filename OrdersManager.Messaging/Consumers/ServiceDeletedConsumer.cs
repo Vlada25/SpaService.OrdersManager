@@ -22,7 +22,7 @@ namespace OrdersManager.Messaging.Consumers
         {
             var message = context.Message;
 
-            _schedulesService.DeleteByServiceId(message.Id);
+            await _schedulesService.DeleteByServiceId(message.Id);
         }
     }
 }

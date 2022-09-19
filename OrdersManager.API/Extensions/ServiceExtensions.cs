@@ -57,16 +57,14 @@ namespace OrdersManager.API.Extensions
         public static void ConfigureMessageBroker(this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddMassTransit(x =>
+            services.ConfigureMessageBroker(configuration, consumersConfig =>
             {
-                x.AddConsumer<ClientDeletedConsumer>();
-                x.AddConsumer<ClientUpdatedConsumer>();
-                x.AddConsumer<MasterUpdatedConsumer>();
-                x.AddConsumer<MasterDeletedConsumer>();
-                x.AddConsumer<ServiceDeletedConsumer>();
-                x.AddConsumer<ServiceUpdatedConsumer>();
-
-                MessageBrokerExtensions.ConfigureRabbitMq(configuration, x);
+                consumersConfig.AddConsumer<ClientDeletedConsumer>();
+                consumersConfig.AddConsumer<ClientUpdatedConsumer>();
+                consumersConfig.AddConsumer<MasterDeletedConsumer>();
+                consumersConfig.AddConsumer<MasterUpdatedConsumer>();
+                consumersConfig.AddConsumer<ServiceDeletedConsumer>();
+                consumersConfig.AddConsumer<ServiceUpdatedConsumer>();
             });
         }
     }

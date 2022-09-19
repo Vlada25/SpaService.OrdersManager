@@ -4,7 +4,6 @@ using OrdersManager.DTO.Order;
 using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Logging;
 using OrdersManager.Interfaces.Services;
-using SpaService.Domain.Messages.LogMessages;
 using SpaService.Domain.Messages.Person;
 
 namespace OrdersManager.API.Services
