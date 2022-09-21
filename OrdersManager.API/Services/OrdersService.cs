@@ -82,9 +82,9 @@ namespace OrdersManager.API.Services
         public async Task<Order> GetById(Guid id) =>
             await _repositoryManager.OrdersRepository.GetById(id, trackChanges: false);
 
-        public async Task<bool> Update(OrderForUpdateDto entityForUpdate)
+        public async Task<bool> Update(Guid id, OrderForUpdateDto entityForUpdate)
         {
-            var entity = await _repositoryManager.OrdersRepository.GetById(entityForUpdate.Id, trackChanges: true);
+            var entity = await _repositoryManager.OrdersRepository.GetById(id, trackChanges: true);
 
             if (entity == null)
             {

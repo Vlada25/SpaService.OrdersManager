@@ -70,9 +70,9 @@ namespace OrdersManager.API.Services
         public async Task<Schedule> GetById(Guid id) =>
             await _repositoryManager.SchedulesRepository.GetById(id, trackChanges: false);
 
-        public async Task<bool> Update(ScheduleForUpdateDto entityForUpdate)
+        public async Task<bool> Update(Guid id, ScheduleForUpdateDto entityForUpdate)
         {
-            var entity = await _repositoryManager.SchedulesRepository.GetById(entityForUpdate.Id, trackChanges: true);
+            var entity = await _repositoryManager.SchedulesRepository.GetById(id, trackChanges: true);
 
             if (entity == null)
             {

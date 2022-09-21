@@ -49,9 +49,9 @@ namespace OrdersManager.API.Services
         public async Task<Feedback> GetById(Guid id) =>
             await _repositoryManager.FeedbacksRepository.GetById(id, trackChanges: false);
 
-        public async Task<bool> Update(FeedbackForUpdateDto entityForUpdate)
+        public async Task<bool> Update(Guid id, FeedbackForUpdateDto entityForUpdate)
         {
-            var entity = await _repositoryManager.FeedbacksRepository.GetById(entityForUpdate.Id, trackChanges: true);
+            var entity = await _repositoryManager.FeedbacksRepository.GetById(id, trackChanges: true);
 
             if (entity == null)
             {

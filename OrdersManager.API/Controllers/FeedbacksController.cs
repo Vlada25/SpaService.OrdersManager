@@ -4,7 +4,7 @@ using OrdersManager.Interfaces.Services;
 
 namespace OrdersManager.API.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class FeedbacksController : ControllerBase
     {
@@ -52,19 +52,19 @@ namespace OrdersManager.API.Controllers
             return CreatedAtRoute("FeedbackById", new { id = feedbackEntity.Id }, feedbackEntity);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] FeedbackForUpdateDto feedback)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] FeedbackForUpdateDto feedback)
         {
             if (feedback == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var isEntityFound = await _feedbacksService.Update(feedback);
+            var isEntityFound = await _feedbacksService.Update(id, feedback);
 
             if (!isEntityFound)
             {
-                return NotFound($"Entity with id: {feedback.Id} doesn't exist in datebase");
+                return NotFound($"Entity with id: {id} doesn't exist in datebase");
             }
 
             return NoContent();

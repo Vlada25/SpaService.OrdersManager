@@ -5,7 +5,7 @@ using OrdersManager.Interfaces.Services;
 
 namespace OrdersManager.API.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase
     {
@@ -53,19 +53,19 @@ namespace OrdersManager.API.Controllers
             return CreatedAtRoute("OrderById", new { id = orderEntity.Id }, orderEntity);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] OrderForUpdateDto order)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] OrderForUpdateDto order)
         {
             if (order == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var isEntityFound = await _ordersService.Update(order);
+            var isEntityFound = await _ordersService.Update(id, order);
 
             if (!isEntityFound)
             {
-                return NotFound($"Entity with id: {order.Id} doesn't exist in datebase");
+                return NotFound($"Entity with id: {id} doesn't exist in datebase");
             }
 
             return NoContent();

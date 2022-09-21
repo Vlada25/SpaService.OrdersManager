@@ -9,6 +9,6 @@ namespace OrdersManager.Interfaces.Services
         Task<Feedback> GetById(Guid id);
         Task<Feedback> Create(FeedbackForCreationDto entityForCreation);
         Task<bool> Delete(Guid id);
-        Task<bool> Update(FeedbackForUpdateDto entityForUpdate);
+        Task<bool> Update(Guid id, FeedbackForUpdateDto entityForUpdate);
     }
 }

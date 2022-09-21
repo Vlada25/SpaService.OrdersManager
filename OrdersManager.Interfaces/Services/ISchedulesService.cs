@@ -14,7 +14,7 @@ namespace OrdersManager.Interfaces.Services
         Task<bool> Delete(Guid id);
         Task<bool> DeleteByMasterId(Guid masterId);
         Task<bool> DeleteByServiceId(Guid serviceId);
-        Task<bool> Update(ScheduleForUpdateDto entityForUpdate);
+        Task<bool> Update(Guid id, ScheduleForUpdateDto entityForUpdate);
         Task<bool> UpdateMaster(MasterUpdated master);
         Task<bool> UpdateService(ServiceUpdated service);
         Task<bool> UpdateSchedules(IEnumerable<Schedule> entities);

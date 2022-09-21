@@ -2,7 +2,6 @@
 {
     public class ScheduleForUpdateDto
     {
-        public Guid Id { get; set; }
         public Guid MasterId { get; set; }
         public Guid ServiceId { get; set; }
         public DateTime StartTime { get; set; }

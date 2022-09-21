@@ -4,7 +4,7 @@ using OrdersManager.Interfaces.Services;
 
 namespace OrdersManager.API.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class SchedulesController : ControllerBase
     {
@@ -52,19 +52,19 @@ namespace OrdersManager.API.Controllers
             return CreatedAtRoute("ScheduleById", new { id = scheduleEntity.Id }, scheduleEntity);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] ScheduleForUpdateDto schedule)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] ScheduleForUpdateDto schedule)
         {
             if (schedule == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var isEntityFound = await _schedulesService.Update(schedule);
+            var isEntityFound = await _schedulesService.Update(id, schedule);
 
             if (!isEntityFound)
             {
-                return NotFound($"Entity with id: {schedule.Id} doesn't exist in datebase");
+                return NotFound($"Entity with id: {id} doesn't exist in datebase");
             }
 
             return NoContent();
@@ -78,19 +78,6 @@ namespace OrdersManager.API.Controllers
             if (!isEntityFound)
             {
                 return NotFound($"Entity with id: {id} doesn't exist in the database.");
-            }
-
-            return NoContent();
-        }
-
-        [HttpDelete("{serviceId}")]
-        public async Task<IActionResult> DeleteByServiceId(Guid serviceId)
-        {
-            var isEntityFound = await _schedulesService.DeleteByServiceId(serviceId);
-
-            if (!isEntityFound)
-            {
-                return NotFound($"Entity with id: {serviceId} doesn't exist in the database.");
             }
 
             return NoContent();
