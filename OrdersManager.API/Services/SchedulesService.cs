@@ -139,9 +139,6 @@ namespace OrdersManager.API.Services
             {
                 schedule.Address = service.Address;
                 schedule.ServiceName = service.Name;
-                schedule.ServicePrice = service.Price;
-
-                _repositoryManager.SchedulesRepository.Update(schedule);
             }
             
             await _repositoryManager.Save();

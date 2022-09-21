@@ -23,7 +23,7 @@ namespace OrdersManager.Database.Repositories
             await GetByCondition(sch => sch.MasterId.Equals(masterId), false).ToListAsync();
 
         public async Task<IEnumerable<Schedule>> GetByServiceId(Guid serviceId) =>
-            await GetByCondition(sch => sch.ServiceId.Equals(serviceId), false).ToListAsync();
+            await GetByCondition(sch => sch.ServiceId.Equals(serviceId), false).Include(sh => sh.Order).ToListAsync();
 
         public void Update(Schedule entity) =>
             UpdateEntity(entity);
