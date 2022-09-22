@@ -10,6 +10,8 @@ namespace OrdersManager.Interfaces.Services
         Task<IEnumerable<Schedule>> GetAll();
         Task<Schedule> GetById(Guid id);
         Task<IEnumerable<Schedule>> GetByServiceId(Guid serviceId);
+        Task<IEnumerable<Schedule>> GetByAddressId(Guid addressId);
+        Task<IEnumerable<Schedule>> GetByServiceTypeId(Guid serviceTypeId);
         Task<Schedule> Create(ScheduleForCreationDto entityForCreation);
         Task<bool> Delete(Guid id);
         Task<bool> DeleteByMasterId(Guid masterId);

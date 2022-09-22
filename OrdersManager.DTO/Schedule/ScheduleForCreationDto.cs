@@ -11,5 +11,7 @@
         public string ServiceName { get; set; }
         public decimal ServicePrice { get; set; }
         public string Address { get; set; }
+        public Guid AddressId { get; set; }
+        public Guid ServiceTypeId { get; set; }
     }
 }

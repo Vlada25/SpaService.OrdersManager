@@ -65,6 +65,8 @@ namespace OrdersManager.API.Extensions
                 consumersConfig.AddConsumer<MasterUpdatedConsumer>();
                 consumersConfig.AddConsumer<ServiceDeletedConsumer>();
                 consumersConfig.AddConsumer<ServiceUpdatedConsumer>();
+                consumersConfig.AddConsumer<AddressUpdatedConsumer>();
+                consumersConfig.AddConsumer<ServiceTypeUpdatedConsumer>();
             });
         }
     }

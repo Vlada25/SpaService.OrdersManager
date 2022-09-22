@@ -162,5 +162,11 @@ namespace OrdersManager.API.Services
 
             return true;
         }
+
+        public async Task<IEnumerable<Schedule>> GetByAddressId(Guid addressId) =>
+            await _repositoryManager.SchedulesRepository.GetByAddressId(addressId);
+
+        public async Task<IEnumerable<Schedule>> GetByServiceTypeId(Guid serviceTypeId) =>
+            await _repositoryManager.SchedulesRepository.GetByServiceTypeId(serviceTypeId);
     }
 }

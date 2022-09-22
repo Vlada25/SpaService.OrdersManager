@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -21,7 +22,9 @@ namespace OrdersManager.Database.Migrations
                     MasterName = table.Column<string>(type: "text", nullable: false),
                     ServiceName = table.Column<string>(type: "text", nullable: false),
                     ServicePrice = table.Column<decimal>(type: "numeric", nullable: false),
-                    Address = table.Column<string>(type: "text", nullable: false)
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    AddressId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ServiceTypeId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
