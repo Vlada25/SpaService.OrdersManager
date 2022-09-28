@@ -1,18 +1,18 @@
-﻿using Microsoft.OpenApi.Extensions;
+﻿using MassTransit;
+using OrdersManager.Domain.Extensions;
 using OrdersManager.Domain.Models;
 using OrdersManager.Interfaces.Logging;
 using SpaService.Domain.Messages.Logs;
 
 namespace OrdersManager.API.Services.Logging
 {
-    public class HttpLoggingService : ILoggingService
+    public class MessageBrokerLoggingService : ILoggingService
     {
-        private readonly HttpClient _httpClient = new HttpClient();
-        private readonly string _loggingHost;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public HttpLoggingService(string host)
+        public MessageBrokerLoggingService(IPublishEndpoint publishEndpoint)
         {
-            _loggingHost = host + "/Logs/Create";
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task SendCreatedMessage(Order order)
@@ -25,10 +25,9 @@ namespace OrdersManager.API.Services.Logging
                     $"Status: {EnumExtensions.GetDisplayName(order.Status)}",
                 DateTime = DateTime.UtcNow,
                 Severity = "Info"
-
             };
 
-            await _httpClient.PostAsJsonAsync(_loggingHost, logMessage);
+            await _publishEndpoint.Publish(logMessage);
         }
 
         public async Task SendDeletedMessage(Order order)
@@ -43,7 +42,7 @@ namespace OrdersManager.API.Services.Logging
                 Severity = "Info"
             };
 
-            await _httpClient.PostAsJsonAsync(_loggingHost, logMessage);
+            await _publishEndpoint.Publish(logMessage);
         }
 
         public async Task SendUpdatedMessage(Order order)
@@ -58,7 +57,7 @@ namespace OrdersManager.API.Services.Logging
                 Severity = "Info"
             };
 
-            await _httpClient.PostAsJsonAsync(_loggingHost, logMessage);
+            await _publishEndpoint.Publish(logMessage);
         }
     }
 }

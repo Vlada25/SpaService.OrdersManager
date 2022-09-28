@@ -12,7 +12,7 @@ using OrdersManager.Database;
 namespace OrdersManager.Database.Migrations
 {
     [DbContext(typeof(OrdersManagerDbContext))]
-    [Migration("20220909125424_InitDatabase")]
+    [Migration("20220922071257_InitDatabase")]
     partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,6 +88,9 @@ namespace OrdersManager.Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("AddressId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("timestamp with time zone");
 
@@ -111,6 +114,9 @@ namespace OrdersManager.Database.Migrations
 
                     b.Property<decimal>("ServicePrice")
                         .HasColumnType("numeric");
+
+                    b.Property<Guid>("ServiceTypeId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("timestamp with time zone");

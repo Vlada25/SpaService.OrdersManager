@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.0.6" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.7" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
@@ -16,6 +18,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.7" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.5" />
     <PackageReference Include="Plain.RabbitMQ" Version="0.0.0.4" />
+    <PackageReference Include="SpaService.Domain" Version="1.0.9" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
@@ -23,6 +26,7 @@
     <ProjectReference Include="..\OrdersManager.Database\OrdersManager.Database.csproj" />
     <ProjectReference Include="..\OrdersManager.DTO\OrdersManager.DTO.csproj" />
     <ProjectReference Include="..\OrdersManager.Interfaces\OrdersManager.Interfaces.csproj" />
+    <ProjectReference Include="..\OrdersManager.Messaging\OrdersManager.Messaging.csproj" />
   </ItemGroup>
 
 </Project>

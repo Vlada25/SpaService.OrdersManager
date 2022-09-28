@@ -11,6 +11,8 @@ builder.WebHost.ConfigureKestrel(options =>
     options.ListenAnyIP(7030, configure => configure.UseHttps()); // to listen for incoming https connection on port 7001
 });
 
+builder.Services.ConfigureMessageBroker(builder.Configuration);
+
 // Add services to the container.
 builder.Services.ConfigureDbServices();
 builder.Services.AddControllers(config =>
@@ -20,7 +22,6 @@ builder.Services.AddControllers(config =>
 }).AddNewtonsoftJson();
 
 builder.Services.ConfigureConstants(builder.Configuration);
-//builder.Services.ConfigureMessageBroker();
 
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();

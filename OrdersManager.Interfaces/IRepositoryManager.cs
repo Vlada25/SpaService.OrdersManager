@@ -1,9 +1,4 @@
 ﻿using OrdersManager.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrdersManager.Interfaces
 {
@@ -13,6 +8,6 @@ namespace OrdersManager.Interfaces
         IFeedbacksRepository FeedbacksRepository { get; }
         ISchedulesRepository SchedulesRepository { get; }
 
-        void Save();
+        Task Save();
     }
 }

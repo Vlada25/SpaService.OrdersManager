@@ -1,12 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using OrdersManager.API.Services;
 using OrdersManager.API.Services.Logging;
 using OrdersManager.Database;
 using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Logging;
 using OrdersManager.Interfaces.Services;
-using Plain.RabbitMQ;
-using RabbitMQ.Client;
+using OrdersManager.Messaging.Consumers;
+using SpaService.Domain.Configuration;
 
 namespace OrdersManager.API.Extensions
 {
@@ -42,7 +43,7 @@ namespace OrdersManager.API.Extensions
             services.AddScoped<IOrdersService, OrdersService>();
             services.AddScoped<ISchedulesService, SchedulesService>();
 
-            services.AddSingleton<ILoggingService, HttpLoggingService>();
+            services.AddScoped<ILoggingService, MessageBrokerLoggingService>();
         }
 
         public static void ConfigureConstants(this IServiceCollection services,
@@ -53,15 +54,20 @@ namespace OrdersManager.API.Extensions
             services.AddSingleton(host);
         }
 
-        /*
-        public static void ConfigureMessageBroker(this IServiceCollection services)
+        public static void ConfigureMessageBroker(this IServiceCollection services,
+            IConfiguration configuration)
         {
-            services.AddSingleton<IConnectionProvider>(new ConnectionProvider("amqp://guest:guest@localhost:5672"));
-            services.AddScoped<ISubscriber>(x => new Subscriber(x.GetService<IConnectionProvider>(),
-                "report_exchange",
-                "report_queue",
-                "report.*",
-                ExchangeType.Topic));
-        }*/
+            services.ConfigureMessageBroker(configuration, consumersConfig =>
+            {
+                consumersConfig.AddConsumer<ClientDeletedConsumer>();
+                consumersConfig.AddConsumer<ClientUpdatedConsumer>();
+                consumersConfig.AddConsumer<MasterDeletedConsumer>();
+                consumersConfig.AddConsumer<MasterUpdatedConsumer>();
+                consumersConfig.AddConsumer<ServiceDeletedConsumer>();
+                consumersConfig.AddConsumer<ServiceUpdatedConsumer>();
+                consumersConfig.AddConsumer<AddressUpdatedConsumer>();
+                consumersConfig.AddConsumer<ServiceTypeUpdatedConsumer>();
+            });
+        }
     }
 }

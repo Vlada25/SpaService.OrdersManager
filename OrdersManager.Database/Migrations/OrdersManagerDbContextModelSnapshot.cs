@@ -86,6 +86,9 @@ namespace OrdersManager.Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("AddressId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("timestamp with time zone");
 
@@ -109,6 +112,9 @@ namespace OrdersManager.Database.Migrations
 
                     b.Property<decimal>("ServicePrice")
                         .HasColumnType("numeric");
+
+                    b.Property<Guid>("ServiceTypeId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("timestamp with time zone");

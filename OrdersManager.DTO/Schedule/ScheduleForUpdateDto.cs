@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OrdersManager.DTO.Schedule
+﻿namespace OrdersManager.DTO.Schedule
 {
     public class ScheduleForUpdateDto
     {
-        public Guid Id { get; set; }
         public Guid MasterId { get; set; }
         public Guid ServiceId { get; set; }
         public DateTime StartTime { get; set; }
@@ -18,5 +11,7 @@ namespace OrdersManager.DTO.Schedule
         public string ServiceName { get; set; }
         public decimal ServicePrice { get; set; }
         public string Address { get; set; }
+        public Guid AddressId { get; set; }
+        public Guid ServiceTypeId { get; set; }
     }
 }

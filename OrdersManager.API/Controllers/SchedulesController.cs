@@ -1,14 +1,10 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using OrdersManager.Domain.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using OrdersManager.DTO.Schedule;
-using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Services;
 
 namespace OrdersManager.API.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class SchedulesController : ControllerBase
     {
@@ -21,17 +17,17 @@ namespace OrdersManager.API.Controllers
 
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var schedules = _schedulesService.GetAll();
+            var schedules = await _schedulesService.GetAll();
 
             return Ok(schedules);
         }
 
         [HttpGet("{id}", Name = "ScheduleById")]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var schedule = _schedulesService.GetById(id);
+            var schedule = await _schedulesService.GetById(id);
 
             if (schedule == null)
             {
@@ -44,40 +40,40 @@ namespace OrdersManager.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] ScheduleForCreationDto schedule)
+        public async Task<IActionResult> Create([FromBody] ScheduleForCreationDto schedule)
         {
             if (schedule == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var scheduleEntity = _schedulesService.Create(schedule);
+            var scheduleEntity = await _schedulesService.Create(schedule);
 
             return CreatedAtRoute("ScheduleById", new { id = scheduleEntity.Id }, scheduleEntity);
         }
 
-        [HttpPut]
-        public IActionResult Update([FromBody] ScheduleForUpdateDto schedule)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] ScheduleForUpdateDto schedule)
         {
             if (schedule == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var isEntityFound = _schedulesService.Update(schedule);
+            var isEntityFound = await _schedulesService.Update(id, schedule);
 
             if (!isEntityFound)
             {
-                return NotFound($"Entity with id: {schedule.Id} doesn't exist in datebase");
+                return NotFound($"Entity with id: {id} doesn't exist in datebase");
             }
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var isEntityFound = _schedulesService.Delete(id);
+            var isEntityFound = await _schedulesService.Delete(id);
 
             if (!isEntityFound)
             {
