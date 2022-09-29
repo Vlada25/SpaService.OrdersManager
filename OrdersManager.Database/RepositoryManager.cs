@@ -1,11 +1,6 @@
 ﻿using OrdersManager.Database.Repositories;
 using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrdersManager.Database
 {
@@ -58,6 +53,6 @@ namespace OrdersManager.Database
             }
         }
 
-        public void Save() => _dbContext.SaveChanges();
+        public async Task Save() => await _dbContext.SaveChangesAsync();
     }
 }

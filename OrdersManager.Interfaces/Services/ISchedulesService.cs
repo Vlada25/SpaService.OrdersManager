@@ -1,19 +1,24 @@
 ﻿using OrdersManager.Domain.Models;
 using OrdersManager.DTO.Schedule;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SpaService.Domain.Messages.Person;
+using SpaService.Domain.Messages.Service;
 
 namespace OrdersManager.Interfaces.Services
 {
     public interface ISchedulesService
     {
-        IEnumerable<Schedule> GetAll();
-        Schedule GetById(Guid id);
-        Schedule Create(ScheduleForCreationDto entityForCreation);
-        bool Delete(Guid id);
-        bool Update(ScheduleForUpdateDto entityForUpdate);
+        Task<IEnumerable<Schedule>> GetAll();
+        Task<Schedule> GetById(Guid id);
+        Task<IEnumerable<Schedule>> GetByServiceId(Guid serviceId);
+        Task<IEnumerable<Schedule>> GetByAddressId(Guid addressId);
+        Task<IEnumerable<Schedule>> GetByServiceTypeId(Guid serviceTypeId);
+        Task<Schedule> Create(ScheduleForCreationDto entityForCreation);
+        Task<bool> Delete(Guid id);
+        Task<bool> DeleteByMasterId(Guid masterId);
+        Task<bool> DeleteByServiceId(Guid serviceId);
+        Task<bool> Update(Guid id, ScheduleForUpdateDto entityForUpdate);
+        Task<bool> UpdateMaster(MasterUpdated master);
+        Task<bool> UpdateService(ServiceUpdated service);
+        Task<bool> UpdateSchedules(IEnumerable<Schedule> entities);
     }
 }

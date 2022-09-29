@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdersManager.Database", "O
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdersManager.Interfaces", "OrdersManager.Interfaces\OrdersManager.Interfaces.csproj", "{182BC68E-25BA-4B56-B2F1-6377F7A184F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdersManager.Tests", "OrdersManager.Tests\OrdersManager.Tests.csproj", "{5750AFE6-53A9-4421-9F19-D4CA51DD9A32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdersManager.Tests", "OrdersManager.Tests\OrdersManager.Tests.csproj", "{5750AFE6-53A9-4421-9F19-D4CA51DD9A32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdersManager.DTO", "OrdersManager.DTO\OrdersManager.DTO.csproj", "{3F33EF78-7B9E-49DF-BF76-104E22046964}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdersManager.DTO", "OrdersManager.DTO\OrdersManager.DTO.csproj", "{3F33EF78-7B9E-49DF-BF76-104E22046964}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdersManager.Messaging", "OrdersManager.Messaging\OrdersManager.Messaging.csproj", "{EDA9431A-D0D0-48A5-90A3-50CD087B499B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{3F33EF78-7B9E-49DF-BF76-104E22046964}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F33EF78-7B9E-49DF-BF76-104E22046964}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F33EF78-7B9E-49DF-BF76-104E22046964}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDA9431A-D0D0-48A5-90A3-50CD087B499B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDA9431A-D0D0-48A5-90A3-50CD087B499B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDA9431A-D0D0-48A5-90A3-50CD087B499B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDA9431A-D0D0-48A5-90A3-50CD087B499B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrdersManager.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrdersManager.Database
 {
@@ -25,6 +20,8 @@ namespace OrdersManager.Database
             modelBuilder.Entity<Order>().Property(p => p.ScheduleId).IsRequired();
 
             modelBuilder.Entity<Order>().Property(p => p.ClientId).IsRequired();
+
+            modelBuilder.Entity<Order>().Property(p => p.Status).IsRequired();
 
             modelBuilder.Entity<Order>().HasOne(o => o.Schedule).WithOne(s => s.Order);
 
@@ -49,8 +46,6 @@ namespace OrdersManager.Database
             modelBuilder.Entity<Schedule>().Property(p => p.StartTime).IsRequired();
 
             modelBuilder.Entity<Schedule>().Property(p => p.EndTime).IsRequired();
-
-            modelBuilder.Entity<Schedule>().Property(p => p.Status).IsRequired();
 
 
 

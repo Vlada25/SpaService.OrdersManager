@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace OrdersManager.Domain.Models
 {
@@ -16,6 +11,9 @@ namespace OrdersManager.Domain.Models
         InProcess,
 
         [Display(Name = "Done")]
-        Done
+        Done,
+
+        [Display(Name = "Canceled")]
+        Canceled
     }
 }

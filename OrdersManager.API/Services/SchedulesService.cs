@@ -3,6 +3,8 @@ using OrdersManager.Domain.Models;
 using OrdersManager.DTO.Schedule;
 using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Services;
+using SpaService.Domain.Messages.Person;
+using SpaService.Domain.Messages.Service;
 
 namespace OrdersManager.API.Services
 {
@@ -18,19 +20,38 @@ namespace OrdersManager.API.Services
             _mapper = mapper;
         }
 
-        public Schedule Create(ScheduleForCreationDto entityForCreation)
+        public async Task<Schedule> Create(ScheduleForCreationDto entityForCreation)
         {
             var entity = _mapper.Map<Schedule>(entityForCreation);
 
-            _repositoryManager.SchedulesRepository.Create(entity);
-            _repositoryManager.Save();
+            await _repositoryManager.SchedulesRepository.Create(entity);
+            await _repositoryManager.Save();
 
             return entity;
         }
 
-        public bool Delete(Guid id)
+        public async Task<bool> DeleteByMasterId(Guid masterId)
         {
-            var entity = _repositoryManager.SchedulesRepository.GetById(id, trackChanges: false);
+            var entities = await _repositoryManager.SchedulesRepository.GetByMasterId(masterId);
+
+            if (entities == null)
+            {
+                return false;
+            }
+
+            foreach (var entity in entities)
+            {
+                _repositoryManager.SchedulesRepository.Delete(entity);
+            }
+
+            await _repositoryManager.Save();
+
+            return true;
+        }
+
+        public async Task<bool> Delete(Guid id)
+        {
+            var entity = await _repositoryManager.SchedulesRepository.GetById(id, trackChanges: false);
 
             if (entity == null)
             {
@@ -38,20 +59,20 @@ namespace OrdersManager.API.Services
             }
 
             _repositoryManager.SchedulesRepository.Delete(entity);
-            _repositoryManager.Save();
+            await _repositoryManager.Save();
 
             return true;
         }
 
-        public IEnumerable<Schedule> GetAll() =>
-            _repositoryManager.SchedulesRepository.GetAll(trackChanges: false);
+        public async Task<IEnumerable<Schedule>> GetAll() =>
+            await _repositoryManager.SchedulesRepository.GetAll(trackChanges: false);
 
-        public Schedule GetById(Guid id) =>
-            _repositoryManager.SchedulesRepository.GetById(id, trackChanges: false);
+        public async Task<Schedule> GetById(Guid id) =>
+            await _repositoryManager.SchedulesRepository.GetById(id, trackChanges: false);
 
-        public bool Update(ScheduleForUpdateDto entityForUpdate)
+        public async Task<bool> Update(Guid id, ScheduleForUpdateDto entityForUpdate)
         {
-            var entity = _repositoryManager.SchedulesRepository.GetById(entityForUpdate.Id, trackChanges: true);
+            var entity = await _repositoryManager.SchedulesRepository.GetById(id, trackChanges: true);
 
             if (entity == null)
             {
@@ -59,9 +80,93 @@ namespace OrdersManager.API.Services
             }
 
             _mapper.Map(entityForUpdate, entity);
-            _repositoryManager.Save();
+
+            _repositoryManager.SchedulesRepository.Update(entity);
+            await _repositoryManager.Save();
 
             return true;
         }
+
+        public async Task<bool> UpdateMaster(MasterUpdated master)
+        {
+            var entities = await _repositoryManager.SchedulesRepository.GetByMasterId(master.Id);
+
+            if (entities == null)
+            {
+                return false;
+            }
+
+            foreach (var entity in entities)
+            {
+                entity.MasterName = master.Name;
+                entity.MasterSurname = master.Surname;
+
+                _repositoryManager.SchedulesRepository.Update(entity);
+            }
+
+            await _repositoryManager.Save();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteByServiceId(Guid serviceId)
+        {
+            var entities = await _repositoryManager.SchedulesRepository.GetByServiceId(serviceId);
+
+            if (entities == null)
+            {
+                return false;
+            }
+
+            foreach (var entity in entities)
+            {
+                _repositoryManager.SchedulesRepository.Delete(entity);
+            }
+
+            await _repositoryManager.Save();
+
+            return true;
+        }
+
+        public async Task<IEnumerable<Schedule>> GetByServiceId(Guid serviceId) =>
+            await _repositoryManager.SchedulesRepository.GetByServiceId(serviceId);
+
+        public async Task<bool> UpdateService(ServiceUpdated service)
+        {
+            var schedules = await _repositoryManager.SchedulesRepository.GetByServiceId(service.Id);
+
+            foreach (var schedule in schedules)
+            {
+                schedule.Address = service.Address;
+                schedule.ServiceName = service.Name;
+            }
+            
+            await _repositoryManager.Save();
+
+            return true;
+        }
+
+        public async Task<bool> UpdateSchedules(IEnumerable<Schedule> entities)
+        {
+            if (entities == null)
+            {
+                return false;
+            }
+
+            foreach (var entity in entities)
+            {
+                _repositoryManager.SchedulesRepository.Update(entity);
+            }
+
+            await _repositoryManager.Save();
+
+            return true;
+        }
+
+        public async Task<IEnumerable<Schedule>> GetByAddressId(Guid addressId) =>
+            await _repositoryManager.SchedulesRepository.GetByAddressId(addressId);
+
+        public async Task<IEnumerable<Schedule>> GetByServiceTypeId(Guid serviceTypeId) =>
+            await _repositoryManager.SchedulesRepository.GetByServiceTypeId(serviceTypeId);
     }
 }

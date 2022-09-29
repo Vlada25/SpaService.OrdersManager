@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrdersManager.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrdersManager.Database.Repositories
 {
@@ -18,9 +13,10 @@ namespace OrdersManager.Database.Repositories
             this.dbContext = dbContext;
         }
 
-        public void CreateEntity(T entity)
+        public async Task CreateEntity(T entity)
         {
-            dbContext.Set<T>().Add(entity);
+            await dbContext.Set<T>().AddAsync(entity);
+            await dbContext.SaveChangesAsync();
         }
 
         public void DeleteEntity(T entity)

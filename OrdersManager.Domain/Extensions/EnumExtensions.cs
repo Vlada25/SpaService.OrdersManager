@@ -1,11 +1,6 @@
 ﻿using OrdersManager.Domain.Models;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrdersManager.Domain.Extensions
 {
@@ -29,6 +24,8 @@ namespace OrdersManager.Domain.Extensions
                     return OrderStatus.InProcess;
                 case "Done":
                     return OrderStatus.Done;
+                case "Canceled":
+                    return OrderStatus.Canceled;
                 default:
                     throw new Exception("Such status of order not found");
             }
