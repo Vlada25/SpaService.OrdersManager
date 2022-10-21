@@ -6,10 +6,11 @@ namespace OrdersManager.Interfaces.Services
 {
     public interface IOrdersService
     {
-        Task<IEnumerable<Order>> GetAll();
-        Task<Order> GetById(Guid id);
-        Task<IEnumerable<Order>> GetByClientId(Guid clientId);
-        Task<Order> Create(OrderForCreationDto entityForCreation);
+        Task<IEnumerable<OrderDto>> GetAll();
+        Task<OrderDto> GetById(Guid id);
+        Task<IEnumerable<OrderDto>> GetByClientId(Guid clientId);
+        Task<OrderDto> GetByScheduleId(Guid scheduleId);
+        Task<OrderDto> Create(OrderForCreationDto entityForCreation);
         Task<bool> Delete(Guid id);
         Task<bool> DeleteByClientId(Guid clientId);
         Task<bool> Update(Guid id, OrderForUpdateDto entityForUpdate);

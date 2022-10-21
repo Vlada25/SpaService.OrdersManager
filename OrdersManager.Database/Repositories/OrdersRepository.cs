@@ -15,14 +15,17 @@ namespace OrdersManager.Database.Repositories
             await GetAllEntities(trackChanges).ToListAsync();
 
         public async Task<Order> GetById(Guid id, bool trackChanges) =>
-            await GetByCondition(fm => fm.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
+            await GetByCondition(o => o.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
 
         public void Delete(Order entity) => DeleteEntity(entity);
 
         public async Task<IEnumerable<Order>> GetByClientId(Guid clientId) =>
-            await GetByCondition(fm => fm.ClientId.Equals(clientId), false).ToListAsync();
+            await GetByCondition(o => o.ClientId.Equals(clientId), false).ToListAsync();
 
         public void Update(Order entity) =>
             UpdateEntity(entity);
+
+        public async Task<Order> GetByScheduleId(Guid scheduleId) =>
+            await GetByCondition(o => o.ScheduleId.Equals(scheduleId), false).SingleOrDefaultAsync();
     }
 }

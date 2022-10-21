@@ -1,13 +1,19 @@
-﻿using MassTransit;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using OrdersManager.API.Services;
 using OrdersManager.API.Services.Logging;
+using OrdersManager.API.Validators;
 using OrdersManager.Database;
+using OrdersManager.Domain.Models;
+using OrdersManager.DTO.Schedule;
 using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Logging;
 using OrdersManager.Interfaces.Services;
 using OrdersManager.Messaging.Consumers;
 using SpaService.Domain.Configuration;
+using System.Reflection;
 
 namespace OrdersManager.API.Extensions
 {
@@ -33,6 +39,8 @@ namespace OrdersManager.API.Extensions
             services.AddDbContext<OrdersManagerDbContext>(opts =>
                 opts.UseNpgsql(configuration.GetConnectionString("sqlConnection"), b =>
                     b.MigrationsAssembly("OrdersManager.Database")));
+
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
         public static void ConfigureDbServices(this IServiceCollection services)
@@ -42,6 +50,9 @@ namespace OrdersManager.API.Extensions
             services.AddScoped<IFeedbacksService, FeedbacksService>();
             services.AddScoped<IOrdersService, OrdersService>();
             services.AddScoped<ISchedulesService, SchedulesService>();
+
+            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssemblyContaining<ScheduleForCreationValidator>();
 
             services.AddScoped<ILoggingService, MessageBrokerLoggingService>();
         }

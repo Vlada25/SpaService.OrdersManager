@@ -16,6 +16,7 @@ namespace OrdersManager.API.Controllers
             _ordersService = ordersService;
         }
 
+        #region CRUD
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -82,6 +83,24 @@ namespace OrdersManager.API.Controllers
             }
 
             return NoContent();
+        }
+
+        #endregion
+
+        [HttpGet("Clients/{clientId}")]
+        public async Task<IActionResult> GetByClientId(Guid clientId)
+        {
+            var orders = await _ordersService.GetByClientId(clientId);
+
+            return Ok(orders);
+        }
+
+        [HttpGet("Schedules/{scheduleId}")]
+        public async Task<IActionResult> GetByScheduleId(Guid scheduleId)
+        {
+            var order = await _ordersService.GetByScheduleId(scheduleId);
+
+            return Ok(order);
         }
     }
 }

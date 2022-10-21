@@ -25,6 +25,9 @@ namespace OrdersManager.Domain
             CreateMap<OrderForUpdateDto, Order>()
                 .ForMember(sch => sch.Status, opt => opt.MapFrom(x => EnumExtensions.SetOrderStatus(x.Status)));
             CreateMap<ScheduleForUpdateDto, Schedule>();
+
+            CreateMap<OrderDto, Order>()
+                .ForMember(sch => sch.Status, opt => opt.MapFrom(x => EnumExtensions.SetOrderStatus(x.Status)));
         }
     }
 }

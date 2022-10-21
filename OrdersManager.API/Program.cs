@@ -1,19 +1,26 @@
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.HttpOverrides;
 using OrdersManager.API.Extensions;
 using OrdersManager.Domain;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.ConfigureKestrel(options =>
+if (args.Length != 0)
 {
-    options.ListenAnyIP(5030); // to listen for incoming http connection on port 5001
-    options.ListenAnyIP(7030, configure => configure.UseHttps()); // to listen for incoming https connection on port 7001
-});
+    int firstIp = int.Parse($"5{args[0]}");
+    int secondIp = int.Parse($"7{args[0]}");
+
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenAnyIP(firstIp);
+        options.ListenAnyIP(secondIp, configure => configure.UseHttps());
+    });
+}
 
 builder.Services.ConfigureMessageBroker(builder.Configuration);
 
-// Add services to the container.
 builder.Services.ConfigureDbServices();
 builder.Services.AddControllers(config =>
 {
@@ -25,7 +32,6 @@ builder.Services.ConfigureConstants(builder.Configuration);
 
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
-//builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureSqlContext(builder.Configuration);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -41,6 +47,8 @@ IMapper autoMapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(autoMapper);
 
 var app = builder.Build();
+
+app.ConfigureExceptionHandler();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

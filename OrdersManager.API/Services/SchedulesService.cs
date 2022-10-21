@@ -168,5 +168,8 @@ namespace OrdersManager.API.Services
 
         public async Task<IEnumerable<Schedule>> GetByServiceTypeId(Guid serviceTypeId) =>
             await _repositoryManager.SchedulesRepository.GetByServiceTypeId(serviceTypeId);
+
+        public async Task<IEnumerable<Schedule>> GetByMasterId(Guid masterId) =>
+            await _repositoryManager.SchedulesRepository.GetByMasterId(masterId);
     }
 }

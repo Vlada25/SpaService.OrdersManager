@@ -23,7 +23,7 @@ namespace OrdersManager.API.Services
             _mapper = mapper;
         }
 
-        public async Task<Order> Create(OrderForCreationDto entityForCreation)
+        public async Task<OrderDto> Create(OrderForCreationDto entityForCreation)
         {
             var entity = _mapper.Map<Order>(entityForCreation);
 
@@ -31,7 +31,7 @@ namespace OrdersManager.API.Services
 
             await _loggingService.SendCreatedMessage(entity);
 
-            return entity;
+            return _mapper.Map<OrderDto>(entity);
         }
 
         public async Task<bool> Delete(Guid id)
@@ -73,14 +73,31 @@ namespace OrdersManager.API.Services
             return true;
         }
 
-        public async Task<IEnumerable<Order>> GetAll() =>
-            await _repositoryManager.OrdersRepository.GetAll(trackChanges: false);
+        public async Task<IEnumerable<OrderDto>> GetAll()
+        {
+            var entities = await _repositoryManager.OrdersRepository.GetAll(trackChanges: false);
+            return _mapper.Map<IEnumerable<OrderDto>>(entities);
+        }
+            
 
-        public async Task<IEnumerable<Order>> GetByClientId(Guid clientId) =>
-            await _repositoryManager.OrdersRepository.GetByClientId(clientId);
+        public async Task<IEnumerable<OrderDto>> GetByClientId(Guid clientId)
+        {
+            var entities = await _repositoryManager.OrdersRepository.GetByClientId(clientId);
+            return _mapper.Map<IEnumerable<OrderDto>>(entities);
+        }
+            
 
-        public async Task<Order> GetById(Guid id) =>
-            await _repositoryManager.OrdersRepository.GetById(id, trackChanges: false);
+        public async Task<OrderDto> GetById(Guid id)
+        {
+            var entity = await _repositoryManager.OrdersRepository.GetById(id, trackChanges: false);
+            return _mapper.Map<OrderDto>(entity);
+        }
+
+        public async Task<OrderDto> GetByScheduleId(Guid scheduleId)
+        {
+            var entity = await _repositoryManager.OrdersRepository.GetByScheduleId(scheduleId);
+            return _mapper.Map<OrderDto>(entity);
+        }
 
         public async Task<bool> Update(Guid id, OrderForUpdateDto entityForUpdate)
         {
