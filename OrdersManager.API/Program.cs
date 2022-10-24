@@ -22,6 +22,9 @@ if (args.Length != 0)
 builder.Services.ConfigureMessageBroker(builder.Configuration);
 
 builder.Services.ConfigureDbServices();
+
+builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddControllers(config =>
 {
     config.RespectBrowserAcceptHeader = true;

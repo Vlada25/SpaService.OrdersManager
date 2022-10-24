@@ -1,6 +1,9 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OrdersManager.Database.Commands.Schedules;
+using OrdersManager.Database.Queries.Schedules;
 using OrdersManager.Domain.Models;
 using OrdersManager.DTO.Schedule;
 using OrdersManager.Interfaces.Services;
@@ -12,10 +15,13 @@ namespace OrdersManager.API.Controllers
     public class SchedulesController : ControllerBase
     {
         private readonly ISchedulesService _schedulesService;
+        private readonly IMediator _mediator;
 
-        public SchedulesController(ISchedulesService schedulesService)
+        public SchedulesController(ISchedulesService schedulesService,
+            IMediator mediator)
         {
             _schedulesService = schedulesService;
+            _mediator = mediator;
         }
 
         #region CRUD
@@ -23,7 +29,7 @@ namespace OrdersManager.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var schedules = await _schedulesService.GetAll();
+            var schedules = await _mediator.Send(new GetAllSchedulesQuery());
 
             return Ok(schedules);
         }
@@ -31,7 +37,10 @@ namespace OrdersManager.API.Controllers
         [HttpGet("{id}", Name = "ScheduleById")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var schedule = await _schedulesService.GetById(id);
+            var schedule = await _mediator.Send(new GetScheduleByIdQuery
+            {
+                Id = id
+            });
 
             if (schedule == null)
             {
@@ -51,7 +60,7 @@ namespace OrdersManager.API.Controllers
                 return BadRequest("Object sent from client is null");
             }
 
-            var otherSchedules = await _schedulesService.GetAll();
+            var otherSchedules = await _mediator.Send(new GetAllSchedulesQuery());
             var schedulesByDate = otherSchedules.Where(s => s.StartTime.Date.Equals(schedule.StartTime.Date)
                 && s.MasterId.Equals(schedule.MasterId));
 
@@ -67,7 +76,20 @@ namespace OrdersManager.API.Controllers
                 }
             }
 
-            var scheduleEntity = await _schedulesService.Create(schedule);
+            var scheduleEntity = await _mediator.Send(new CreateScheduleCommand
+            {
+                MasterId = schedule.MasterId,
+                ServiceId = schedule.ServiceId,
+                StartTime = schedule.StartTime,
+                EndTime = schedule.EndTime,
+                MasterName = schedule.MasterName,
+                MasterSurname = schedule.MasterSurname,
+                ServiceName = schedule.ServiceName,
+                ServicePrice = schedule.ServicePrice,
+                Address = schedule.Address,
+                AddressId = schedule.AddressId,
+                ServiceTypeId = schedule.ServiceTypeId
+            });
 
             return CreatedAtRoute("ScheduleById", new { id = scheduleEntity.Id }, scheduleEntity);
         }
@@ -80,7 +102,19 @@ namespace OrdersManager.API.Controllers
                 return BadRequest("Object sent from client is null");
             }
 
-            var isEntityFound = await _schedulesService.Update(id, schedule);
+            var isEntityFound = await _mediator.Send(new UpdateScheduleCommand
+            {
+                Id = id,
+                StartTime = schedule.StartTime,
+                EndTime = schedule.EndTime,
+                MasterName = schedule.MasterName,
+                MasterSurname = schedule.MasterSurname,
+                ServiceName = schedule.ServiceName,
+                ServicePrice = schedule.ServicePrice,
+                Address = schedule.Address,
+                AddressId = schedule.AddressId,
+                ServiceTypeId = schedule.ServiceTypeId
+            });
 
             if (!isEntityFound)
             {
@@ -93,7 +127,10 @@ namespace OrdersManager.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var isEntityFound = await _schedulesService.Delete(id);
+            var isEntityFound = await _mediator.Send(new DeleteScheduleCommand
+            {
+                Id = id
+            });
 
             if (!isEntityFound)
             {
@@ -108,7 +145,10 @@ namespace OrdersManager.API.Controllers
         [HttpGet("Masters/{masterId}")]
         public async Task<IActionResult> GetByMasterId(Guid masterId)
         {
-            var schedules = await _schedulesService.GetByMasterId(masterId);
+            var schedules = await _mediator.Send(new GetSchedulesByMasterIdQuery
+            {
+                MasterId = masterId
+            });
 
             return Ok(schedules);
         }

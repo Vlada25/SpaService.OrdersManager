@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MediatR;
 using OrdersManager.Domain.Models;
 using OrdersManager.DTO.Order;
 using OrdersManager.Interfaces;

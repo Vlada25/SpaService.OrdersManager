@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using OrdersManager.Database.Commands.Feedbacks;
+using OrdersManager.Database.Queries.Feedbacks;
 using OrdersManager.DTO.Feedback;
 using OrdersManager.Interfaces.Services;
 
@@ -9,17 +12,20 @@ namespace OrdersManager.API.Controllers
     public class FeedbacksController : ControllerBase
     {
         private readonly IFeedbacksService _feedbacksService;
+        private readonly IMediator _mediator;
 
-        public FeedbacksController(IFeedbacksService feedbacksService)
+        public FeedbacksController(IFeedbacksService feedbacksService,
+            IMediator mediator)
         {
             _feedbacksService = feedbacksService;
+            _mediator = mediator;
         }
 
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var feedbacks = await _feedbacksService.GetAll();
+            var feedbacks = await _mediator.Send(new GetAllFeedbacksQuery());
 
             return Ok(feedbacks);
         }
@@ -27,7 +33,10 @@ namespace OrdersManager.API.Controllers
         [HttpGet("{id}", Name = "FeedbackById")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var feedback = await _feedbacksService.GetById(id);
+            var feedback = await _mediator.Send(new GetFeedbackByIdQuery
+            {
+                Id = id
+            });
 
             if (feedback == null)
             {
@@ -47,7 +56,12 @@ namespace OrdersManager.API.Controllers
                 return BadRequest("Object sent from client is null");
             }
 
-            var feedbackEntity = await _feedbacksService.Create(feedback);
+            var feedbackEntity = await _mediator.Send(new CreateFeedbackCommand
+            {
+                Comment = feedback.Comment,
+                Mark = feedback.Mark,
+                OrderId = feedback.OrderId
+            });
 
             return CreatedAtRoute("FeedbackById", new { id = feedbackEntity.Id }, feedbackEntity);
         }
@@ -60,7 +74,12 @@ namespace OrdersManager.API.Controllers
                 return BadRequest("Object sent from client is null");
             }
 
-            var isEntityFound = await _feedbacksService.Update(id, feedback);
+            var isEntityFound = await _mediator.Send(new UpdateFeedbackCommand
+            {
+                Id = id,
+                Comment = feedback.Comment,
+                Mark = feedback.Mark
+            });
 
             if (!isEntityFound)
             {
@@ -73,7 +92,10 @@ namespace OrdersManager.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var isEntityFound = await _feedbacksService.Delete(id);
+            var isEntityFound = await _mediator.Send(new DeleteFeedbackCommand
+            {
+                Id = id
+            });
 
             if (!isEntityFound)
             {

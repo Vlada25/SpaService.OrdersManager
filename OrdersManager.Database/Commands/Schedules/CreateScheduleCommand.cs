@@ -1,7 +1,17 @@
-﻿namespace OrdersManager.DTO.Schedule
+﻿using MediatR;
+using OrdersManager.Domain.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace OrdersManager.Database.Commands.Schedules
 {
-    public class ScheduleForUpdateDto
+    public class CreateScheduleCommand : IRequest<Schedule>
     {
+        public Guid MasterId { get; set; }
+        public Guid ServiceId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string MasterSurname { get; set; }
