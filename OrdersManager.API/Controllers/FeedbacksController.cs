@@ -21,6 +21,7 @@ namespace OrdersManager.API.Controllers
             _mediator = mediator;
         }
 
+        #region CRUD
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -42,10 +43,8 @@ namespace OrdersManager.API.Controllers
             {
                 return NotFound($"Entity with id: {id} doesn't exist in datebase");
             }
-            else
-            {
-                return Ok(feedback);
-            }
+
+            return Ok(feedback);
         }
 
         [HttpPost]
@@ -103,6 +102,19 @@ namespace OrdersManager.API.Controllers
             }
 
             return NoContent();
+        }
+
+        #endregion
+
+        [HttpGet("Orders/{orderId}")]
+        public async Task<IActionResult> GetByOrderId(Guid orderId)
+        {
+            var feedbacks = await _mediator.Send(new GetFeedbacksByOrderIdQuery
+            {
+                OrderId = orderId
+            });
+
+            return Ok(feedbacks);
         }
     }
 }

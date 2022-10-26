@@ -19,6 +19,6 @@ namespace OrdersManager.Database.Queries.Schedules.Handlers
         }
 
         public async Task<IEnumerable<Schedule>> Handle(GetAllSchedulesQuery request, CancellationToken cancellationToken) =>
-            await _dbContext.Schedules.ToListAsync();
+            await _dbContext.Schedules.ToListAsync(cancellationToken);
     }
 }

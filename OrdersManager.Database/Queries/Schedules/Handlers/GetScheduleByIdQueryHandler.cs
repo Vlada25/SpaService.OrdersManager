@@ -19,6 +19,6 @@ namespace OrdersManager.Database.Queries.Schedules.Handlers
         }
 
         public async Task<Schedule> Handle(GetScheduleByIdQuery request, CancellationToken cancellationToken) =>
-            await _dbContext.Schedules.FirstOrDefaultAsync(f => f.Id.Equals(request.Id));
+            await _dbContext.Schedules.FirstOrDefaultAsync(f => f.Id.Equals(request.Id), cancellationToken);
     }
 }

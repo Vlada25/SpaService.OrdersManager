@@ -20,6 +20,6 @@ namespace OrdersManager.Database.Queries.Feedbacks.Handlers
         }
 
         public async Task<Feedback> Handle(GetFeedbackByIdQuery request, CancellationToken cancellationToken) =>
-            await _dbContext.Feedbacks.FirstOrDefaultAsync(f => f.Id.Equals(request.Id));
+            await _dbContext.Feedbacks.FirstOrDefaultAsync(f => f.Id.Equals(request.Id), cancellationToken);
     }
 }

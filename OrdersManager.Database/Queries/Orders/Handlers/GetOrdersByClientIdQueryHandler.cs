@@ -24,6 +24,6 @@ namespace OrdersManager.Database.Queries.Orders.Handlers
 
         public async Task<IEnumerable<OrderDto>> Handle(GetOrdersByClientIdQuery request, CancellationToken cancellationToken) =>
             _mapper.Map<IEnumerable<OrderDto>>(
-                await _dbContext.Orders.Where(o => o.ClientId == request.ClientId).ToListAsync());
+                await _dbContext.Orders.Where(o => o.ClientId == request.ClientId).ToListAsync(cancellationToken));
     }
 }

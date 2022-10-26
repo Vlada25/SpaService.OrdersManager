@@ -24,6 +24,6 @@ namespace OrdersManager.Database.Queries.Orders.Handlers
         }
 
         public async Task<IEnumerable<OrderDto>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken) =>
-            _mapper.Map<IEnumerable<OrderDto>>(await _dbContext.Orders.ToListAsync());
+            _mapper.Map<IEnumerable<OrderDto>>(await _dbContext.Orders.ToListAsync(cancellationToken));
     }
 }
