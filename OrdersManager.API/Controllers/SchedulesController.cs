@@ -152,5 +152,16 @@ namespace OrdersManager.API.Controllers
 
             return Ok(schedules);
         }
+
+        [HttpGet("Services/{serviceId}")]
+        public async Task<IActionResult> GetByServiceId(Guid serviceId)
+        {
+            var schedules = await _mediator.Send(new GetSchedulesByServiceIdQuery
+            {
+                ServiceId = serviceId
+            });
+
+            return Ok(schedules);
+        }
     }
 }

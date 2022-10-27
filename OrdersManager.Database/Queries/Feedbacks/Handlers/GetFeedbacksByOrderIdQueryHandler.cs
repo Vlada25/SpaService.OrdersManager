@@ -19,6 +19,6 @@ namespace OrdersManager.Database.Queries.Feedbacks.Handlers
         }
 
         public async Task<IEnumerable<Feedback>> Handle(GetFeedbacksByOrderIdQuery request, CancellationToken cancellationToken) =>
-            await _dbContext.Feedbacks.Where(f => f.Id.Equals(request.OrderId)).ToListAsync(cancellationToken);
+            await _dbContext.Feedbacks.Where(f => f.OrderId.Equals(request.OrderId)).ToListAsync(cancellationToken);
     }
 }
