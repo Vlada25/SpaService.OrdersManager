@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.HttpOverrides;
 using OrdersManager.API.Extensions;
 using OrdersManager.Domain;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 

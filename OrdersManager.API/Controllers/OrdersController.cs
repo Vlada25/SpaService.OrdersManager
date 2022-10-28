@@ -1,9 +1,7 @@
-﻿using MassTransit;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OrdersManager.Database.Commands.Orders;
-using OrdersManager.Database.Queries;
-using OrdersManager.Database.Queries.Orders;
+using OrdersManager.API.Commands.Orders;
+using OrdersManager.API.Queries.Orders;
 using OrdersManager.DTO.Order;
 using OrdersManager.Interfaces.Services;
 
@@ -16,7 +14,7 @@ namespace OrdersManager.API.Controllers
         private readonly IOrdersService _ordersService;
         private readonly IMediator _mediator;
 
-        public OrdersController(IOrdersService ordersService, 
+        public OrdersController(IOrdersService ordersService,
             IMediator mediator)
         {
             _ordersService = ordersService;

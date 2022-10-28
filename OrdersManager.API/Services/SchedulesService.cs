@@ -140,7 +140,7 @@ namespace OrdersManager.API.Services
                 schedule.Address = service.Address;
                 schedule.ServiceName = service.Name;
             }
-            
+
             await _repositoryManager.Save();
 
             return true;

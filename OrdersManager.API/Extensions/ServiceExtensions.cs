@@ -6,14 +6,11 @@ using OrdersManager.API.Services;
 using OrdersManager.API.Services.Logging;
 using OrdersManager.API.Validators;
 using OrdersManager.Database;
-using OrdersManager.Domain.Models;
-using OrdersManager.DTO.Schedule;
 using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Logging;
 using OrdersManager.Interfaces.Services;
 using OrdersManager.Messaging.Consumers;
 using SpaService.Domain.Configuration;
-using System.Reflection;
 
 namespace OrdersManager.API.Extensions
 {

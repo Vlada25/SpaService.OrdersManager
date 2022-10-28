@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OrdersManager.Database.Commands.Feedbacks;
-using OrdersManager.Database.Queries.Feedbacks;
+using OrdersManager.API.Commands.Feedbacks;
+using OrdersManager.API.Queries.Feedbacks;
 using OrdersManager.DTO.Feedback;
 using OrdersManager.Interfaces.Services;
 

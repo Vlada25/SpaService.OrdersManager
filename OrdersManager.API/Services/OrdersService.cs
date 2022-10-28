@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MediatR;
 using OrdersManager.Domain.Models;
 using OrdersManager.DTO.Order;
 using OrdersManager.Interfaces;
@@ -79,14 +78,14 @@ namespace OrdersManager.API.Services
             var entities = await _repositoryManager.OrdersRepository.GetAll(trackChanges: false);
             return _mapper.Map<IEnumerable<OrderDto>>(entities);
         }
-            
+
 
         public async Task<IEnumerable<OrderDto>> GetByClientId(Guid clientId)
         {
             var entities = await _repositoryManager.OrdersRepository.GetByClientId(clientId);
             return _mapper.Map<IEnumerable<OrderDto>>(entities);
         }
-            
+
 
         public async Task<OrderDto> GetById(Guid id)
         {

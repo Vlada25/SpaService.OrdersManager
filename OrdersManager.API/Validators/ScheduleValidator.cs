@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using OrdersManager.Domain.Models;
 using OrdersManager.DTO.Schedule;
 
 namespace OrdersManager.API.Validators

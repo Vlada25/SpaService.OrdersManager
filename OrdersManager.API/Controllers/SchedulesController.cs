@@ -1,10 +1,8 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OrdersManager.Database.Commands.Schedules;
-using OrdersManager.Database.Queries.Schedules;
-using OrdersManager.Domain.Models;
+using OrdersManager.API.Commands.Schedules;
+using OrdersManager.API.Queries.Schedules;
 using OrdersManager.DTO.Schedule;
 using OrdersManager.Interfaces.Services;
 
