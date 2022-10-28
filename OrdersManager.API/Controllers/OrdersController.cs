@@ -50,40 +50,27 @@ namespace OrdersManager.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] OrderForCreationDto order)
+        public async Task<IActionResult> Create([FromBody] CreateOrderCommand order)
         {
             if (order == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var orderEntity = await _mediator.Send(new CreateOrderCommand
-            {
-                ClientId = order.ClientId,
-                ScheduleId = order.ScheduleId,
-                Status = order.Status,
-                ClientSurname = order.ClientSurname,
-                ClientName = order.ClientName
-            });
+            var orderEntity = await _mediator.Send(order);
 
             return CreatedAtRoute("OrderById", new { id = orderEntity.Id }, orderEntity);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] OrderForUpdateDto order)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateOrderCommand order)
         {
             if (order == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var isEntityFound = await _mediator.Send(new UpdateOrderCommand
-            {
-                Id = id,
-                Status = order.Status,
-                ClientSurname = order.ClientSurname,
-                ClientName = order.ClientName
-            });
+            var isEntityFound = await _mediator.Send(order);
 
             if (!isEntityFound)
             {

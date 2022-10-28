@@ -51,7 +51,7 @@ namespace OrdersManager.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ScheduleForCreationDto schedule)
+        public async Task<IActionResult> Create([FromBody] CreateScheduleCommand schedule)
         {
             if (schedule == null)
             {
@@ -74,45 +74,20 @@ namespace OrdersManager.API.Controllers
                 }
             }
 
-            var scheduleEntity = await _mediator.Send(new CreateScheduleCommand
-            {
-                MasterId = schedule.MasterId,
-                ServiceId = schedule.ServiceId,
-                StartTime = schedule.StartTime,
-                EndTime = schedule.EndTime,
-                MasterName = schedule.MasterName,
-                MasterSurname = schedule.MasterSurname,
-                ServiceName = schedule.ServiceName,
-                ServicePrice = schedule.ServicePrice,
-                Address = schedule.Address,
-                AddressId = schedule.AddressId,
-                ServiceTypeId = schedule.ServiceTypeId
-            });
+            var scheduleEntity = await _mediator.Send(schedule);
 
             return CreatedAtRoute("ScheduleById", new { id = scheduleEntity.Id }, scheduleEntity);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] ScheduleForUpdateDto schedule)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateScheduleCommand schedule)
         {
             if (schedule == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var isEntityFound = await _mediator.Send(new UpdateScheduleCommand
-            {
-                Id = id,
-                StartTime = schedule.StartTime,
-                EndTime = schedule.EndTime,
-                MasterName = schedule.MasterName,
-                MasterSurname = schedule.MasterSurname,
-                ServiceName = schedule.ServiceName,
-                ServicePrice = schedule.ServicePrice,
-                Address = schedule.Address,
-                AddressId = schedule.AddressId,
-                ServiceTypeId = schedule.ServiceTypeId
-            });
+            var isEntityFound = await _mediator.Send(schedule);
 
             if (!isEntityFound)
             {

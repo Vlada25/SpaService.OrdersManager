@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using OrdersManager.API.Commands.Feedbacks;
 using OrdersManager.API.Queries.Feedbacks;
-using OrdersManager.DTO.Feedback;
 using OrdersManager.Interfaces.Services;
 
 namespace OrdersManager.API.Controllers
@@ -48,37 +47,27 @@ namespace OrdersManager.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] FeedbackForCreationDto feedback)
+        public async Task<IActionResult> Create([FromBody] CreateFeedbackCommand feedback)
         {
             if (feedback == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var feedbackEntity = await _mediator.Send(new CreateFeedbackCommand
-            {
-                Comment = feedback.Comment,
-                Mark = feedback.Mark,
-                OrderId = feedback.OrderId
-            });
+            var feedbackEntity = await _mediator.Send(feedback);
 
             return CreatedAtRoute("FeedbackById", new { id = feedbackEntity.Id }, feedbackEntity);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] FeedbackForUpdateDto feedback)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateFeedbackCommand feedback)
         {
             if (feedback == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var isEntityFound = await _mediator.Send(new UpdateFeedbackCommand
-            {
-                Id = id,
-                Comment = feedback.Comment,
-                Mark = feedback.Mark
-            });
+            var isEntityFound = await _mediator.Send(feedback);
 
             if (!isEntityFound)
             {
