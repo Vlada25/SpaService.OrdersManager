@@ -1,5 +1,5 @@
-﻿using MediatR;
-using OrdersManager.Domain.Extensions;
+﻿using AutoMapper;
+using MediatR;
 using OrdersManager.Domain.Models;
 using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Logging;
@@ -10,25 +10,20 @@ namespace OrdersManager.CQRS.Commands.Orders.Handlers
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly ILoggingService _loggingService;
+        private readonly IMapper _mapper;
 
         public CreateOrderCommandHandler(IRepositoryManager repositoryManager,
-            ILoggingService loggingService)
+            ILoggingService loggingService,
+            IMapper mapper)
         {
             _repositoryManager = repositoryManager;
             _loggingService = loggingService;
+            _mapper = mapper;
         }
 
         public async Task<Order> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = new Order
-            {
-                Id = new Guid(),
-                ClientId = request.ClientId,
-                ScheduleId = request.ScheduleId,
-                Status = EnumExtensions.SetOrderStatus(request.Status),
-                ClientSurname = request.ClientSurname,
-                ClientName = request.ClientName
-            };
+            var order = _mapper.Map<Order>(request);
 
             await _repositoryManager.OrdersRepository.Create(order, cancellationToken);
 

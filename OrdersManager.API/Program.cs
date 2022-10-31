@@ -2,8 +2,8 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.HttpOverrides;
 using OrdersManager.API.Extensions;
+using OrdersManager.CQRS;
 using OrdersManager.CQRS.Queries.Feedbacks;
-using OrdersManager.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 

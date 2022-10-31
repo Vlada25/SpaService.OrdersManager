@@ -1,5 +1,5 @@
-﻿using MediatR;
-using OrdersManager.Domain.Models;
+﻿using AutoMapper;
+using MediatR;
 using OrdersManager.Interfaces;
 
 namespace OrdersManager.CQRS.Commands.Schedules.Handlers
@@ -7,36 +7,25 @@ namespace OrdersManager.CQRS.Commands.Schedules.Handlers
     public class UpdateScheduleCommandHandler : IRequestHandler<UpdateScheduleCommand, bool>
     {
         private readonly IRepositoryManager _repositoryManager;
+        private readonly IMapper _mapper;
 
-        public UpdateScheduleCommandHandler(IRepositoryManager repositoryManager)
+        public UpdateScheduleCommandHandler(IRepositoryManager repositoryManager,
+            IMapper mapper)
         {
             _repositoryManager = repositoryManager;
+            _mapper = mapper;
         }
 
         public async Task<bool> Handle(UpdateScheduleCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _repositoryManager.SchedulesRepository.GetById(request.Id, true, cancellationToken);
+            var schedule = await _repositoryManager.SchedulesRepository.GetById(request.Id, true, cancellationToken);
 
-            if (entity is null)
+            if (schedule is null)
             {
                 return false;
             }
 
-            var schedule = new Schedule
-            {
-                Id = request.Id,
-                MasterId = entity.MasterId,
-                ServiceId = entity.ServiceId,
-                StartTime = request.StartTime,
-                EndTime = request.EndTime,
-                MasterName = request.MasterName,
-                MasterSurname = request.MasterSurname,
-                ServiceName = request.ServiceName,
-                ServicePrice = request.ServicePrice,
-                Address = request.Address,
-                AddressId = request.AddressId,
-                ServiceTypeId = request.ServiceTypeId
-            };
+            _mapper.Map(request, schedule);
 
             _repositoryManager.SchedulesRepository.Update(schedule);
             await _repositoryManager.Save(cancellationToken);

@@ -1,5 +1,5 @@
-﻿using MediatR;
-using OrdersManager.Domain.Models;
+﻿using AutoMapper;
+using MediatR;
 using OrdersManager.Interfaces;
 
 namespace OrdersManager.CQRS.Commands.Feedbacks.Handlers
@@ -7,28 +7,25 @@ namespace OrdersManager.CQRS.Commands.Feedbacks.Handlers
     public class UpdateFeedbackCommandHandler : IRequestHandler<UpdateFeedbackCommand, bool>
     {
         private readonly IRepositoryManager _repositoryManager;
+        private readonly IMapper _mapper;
 
-        public UpdateFeedbackCommandHandler(IRepositoryManager repositoryManager)
+        public UpdateFeedbackCommandHandler(IRepositoryManager repositoryManager,
+            IMapper mapper)
         {
             _repositoryManager = repositoryManager;
+            _mapper = mapper;
         }
 
         public async Task<bool> Handle(UpdateFeedbackCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _repositoryManager.FeedbacksRepository.GetById(request.Id, false, cancellationToken);
+            var feedback = await _repositoryManager.FeedbacksRepository.GetById(request.Id, false, cancellationToken);
 
-            if (entity is null)
+            if (feedback is null)
             {
                 return false;
             }
 
-            var feedback = new Feedback
-            {
-                Id = request.Id,
-                Comment = request.Comment,
-                Mark = request.Mark,
-                OrderId = entity.OrderId
-            };
+            _mapper.Map(request, feedback);
 
             _repositoryManager.FeedbacksRepository.Update(feedback);
             await _repositoryManager.Save(cancellationToken);

@@ -82,6 +82,7 @@ namespace OrdersManager.API.Controllers
                 return BadRequest("Object sent from client is null");
             }
 
+            schedule.Id = id;
             var isEntityFound = await _mediator.Send(schedule);
 
             if (!isEntityFound)

@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OrdersManager.Database\OrdersManager.Database.csproj" />
+    <ProjectReference Include="..\OrdersManager.DTO\OrdersManager.DTO.csproj" />
     <ProjectReference Include="..\OrdersManager.Interfaces\OrdersManager.Interfaces.csproj" />
   </ItemGroup>
 
