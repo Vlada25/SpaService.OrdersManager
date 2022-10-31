@@ -1,30 +1,27 @@
 ﻿using MassTransit;
-using OrdersManager.Interfaces.Services;
+using MediatR;
+using OrdersManager.CQRS.Commands.Schedules;
 using SpaService.Domain.Messages.Service;
 
 namespace OrdersManager.Messaging.Consumers
 {
     public class ServiceDeletedConsumer : IConsumer<ServiceDeleted>
     {
-        private readonly ISchedulesService _schedulesService;
+        private readonly IMediator _mediator;
 
-        public ServiceDeletedConsumer(ISchedulesService schedulesService)
+        public ServiceDeletedConsumer(IMediator mediator)
         {
-            _schedulesService = schedulesService;
+            _mediator = mediator;
         }
 
         public async Task Consume(ConsumeContext<ServiceDeleted> context)
         {
             var message = context.Message;
 
-            var schedules = await _schedulesService.GetByServiceId(message.Id);
-
-            foreach (var schedule in schedules)
+            await _mediator.Send(new UpdateSchedulesServiceDeletedCommand
             {
-                schedule.ServiceId = Guid.Empty;
-            }
-
-            await _schedulesService.UpdateSchedules(schedules);
+                ScheduleId = message.Id
+            });
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OrdersManager.API.Commands.Schedules;
-using OrdersManager.API.Queries.Schedules;
-using OrdersManager.DTO.Schedule;
-using OrdersManager.Interfaces.Services;
+using OrdersManager.CQRS.Commands.Schedules;
+using OrdersManager.CQRS.Queries.Schedules;
 
 namespace OrdersManager.API.Controllers
 {
@@ -12,13 +10,10 @@ namespace OrdersManager.API.Controllers
     [ApiController]
     public class SchedulesController : ControllerBase
     {
-        private readonly ISchedulesService _schedulesService;
         private readonly IMediator _mediator;
 
-        public SchedulesController(ISchedulesService schedulesService,
-            IMediator mediator)
+        public SchedulesController(IMediator mediator)
         {
-            _schedulesService = schedulesService;
             _mediator = mediator;
         }
 

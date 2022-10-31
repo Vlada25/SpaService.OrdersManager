@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit" Version="8.0.6" />    
+    <PackageReference Include="MassTransit" Version="8.0.6" />
+    <PackageReference Include="MediatR" Version="11.0.0" />    
 	<PackageReference Include="SpaService.Domain" Version="1.0.9" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OrdersManager.CQRS\OrdersManager.CQRS.csproj" />
     <ProjectReference Include="..\OrdersManager.Interfaces\OrdersManager.Interfaces.csproj" />
   </ItemGroup>
 

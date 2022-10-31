@@ -2,6 +2,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.HttpOverrides;
 using OrdersManager.API.Extensions;
+using OrdersManager.CQRS.Queries.Feedbacks;
 using OrdersManager.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,8 @@ builder.Services.ConfigureMessageBroker(builder.Configuration);
 
 builder.Services.ConfigureDbServices();
 
-builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+//builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddMediatR(typeof(GetAllFeedbacksQuery).Assembly);
 
 builder.Services.AddControllers(config =>
 {

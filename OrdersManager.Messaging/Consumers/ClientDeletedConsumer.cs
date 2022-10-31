@@ -1,34 +1,27 @@
-﻿using AutoMapper;
-using MassTransit;
-using OrdersManager.Domain.Models;
-using OrdersManager.Interfaces.Services;
+﻿using MassTransit;
+using MediatR;
+using OrdersManager.CQRS.Commands.Orders;
 using SpaService.Domain.Messages.Person;
 
 namespace OrdersManager.Messaging.Consumers
 {
     public class ClientDeletedConsumer : IConsumer<ClientDeleted>
     {
-        private readonly IOrdersService _ordersService;
-        private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
-        public ClientDeletedConsumer(IOrdersService ordersService, IMapper mapper)
+        public ClientDeletedConsumer(IMediator mediator)
         {
-            _ordersService = ordersService;
-            _mapper = mapper;
+            _mediator = mediator;
         }
 
         public async Task Consume(ConsumeContext<ClientDeleted> context)
         {
             var message = context.Message;
 
-            var orders = await _ordersService.GetByClientId(message.Id);
-
-            foreach (var order in orders)
+            await _mediator.Send(new UpdateOrderClientDeletedCommand
             {
-                order.ClientId = Guid.Empty;
-            }
-
-            await _ordersService.UpdateOrders(_mapper.Map<IEnumerable<Order>>(orders));
+                ClientId = message.Id
+            });
         }
     }
 }

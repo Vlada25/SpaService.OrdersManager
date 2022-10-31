@@ -53,6 +53,7 @@ namespace OrdersManager.Database
             }
         }
 
-        public async Task Save() => await _dbContext.SaveChangesAsync();
+        public async Task Save(CancellationToken cancellationToken) =>
+            await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

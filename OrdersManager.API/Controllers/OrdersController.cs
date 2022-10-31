@@ -1,9 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OrdersManager.API.Commands.Orders;
-using OrdersManager.API.Queries.Orders;
-using OrdersManager.DTO.Order;
-using OrdersManager.Interfaces.Services;
+using OrdersManager.CQRS.Commands.Orders;
+using OrdersManager.CQRS.Queries.Orders;
 
 namespace OrdersManager.API.Controllers
 {
@@ -11,13 +9,10 @@ namespace OrdersManager.API.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly IOrdersService _ordersService;
         private readonly IMediator _mediator;
 
-        public OrdersController(IOrdersService ordersService,
-            IMediator mediator)
+        public OrdersController(IMediator mediator)
         {
-            _ordersService = ordersService;
             _mediator = mediator;
         }
 

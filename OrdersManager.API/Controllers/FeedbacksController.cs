@@ -1,8 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OrdersManager.API.Commands.Feedbacks;
-using OrdersManager.API.Queries.Feedbacks;
-using OrdersManager.Interfaces.Services;
+using OrdersManager.CQRS.Commands.Feedbacks;
+using OrdersManager.CQRS.Queries.Feedbacks;
 
 namespace OrdersManager.API.Controllers
 {
@@ -10,13 +9,10 @@ namespace OrdersManager.API.Controllers
     [ApiController]
     public class FeedbacksController : ControllerBase
     {
-        private readonly IFeedbacksService _feedbacksService;
         private readonly IMediator _mediator;
 
-        public FeedbacksController(IFeedbacksService feedbacksService,
-            IMediator mediator)
+        public FeedbacksController(IMediator mediator)
         {
-            _feedbacksService = feedbacksService;
             _mediator = mediator;
         }
 

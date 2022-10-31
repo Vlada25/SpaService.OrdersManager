@@ -2,13 +2,11 @@
 using FluentValidation.AspNetCore;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using OrdersManager.API.Services;
 using OrdersManager.API.Services.Logging;
 using OrdersManager.API.Validators;
 using OrdersManager.Database;
 using OrdersManager.Interfaces;
 using OrdersManager.Interfaces.Logging;
-using OrdersManager.Interfaces.Services;
 using OrdersManager.Messaging.Consumers;
 using SpaService.Domain.Configuration;
 
@@ -43,10 +41,6 @@ namespace OrdersManager.API.Extensions
         public static void ConfigureDbServices(this IServiceCollection services)
         {
             services.AddScoped<IRepositoryManager, RepositoryManager>();
-
-            services.AddScoped<IFeedbacksService, FeedbacksService>();
-            services.AddScoped<IOrdersService, OrdersService>();
-            services.AddScoped<ISchedulesService, SchedulesService>();
 
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<ScheduleForCreationValidator>();

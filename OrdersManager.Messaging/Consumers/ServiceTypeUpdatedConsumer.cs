@@ -1,29 +1,28 @@
 ﻿using MassTransit;
-using OrdersManager.Interfaces.Services;
+using MediatR;
+using OrdersManager.CQRS.Commands.Schedules;
 using SpaService.Domain.Messages.ServiceType;
 
 namespace OrdersManager.Messaging.Consumers
 {
     public class ServiceTypeUpdatedConsumer : IConsumer<ServiceTypeUpdated>
     {
-        private readonly ISchedulesService _schedulesService;
+        private readonly IMediator _mediator;
 
-        public ServiceTypeUpdatedConsumer(ISchedulesService schedulesService)
+        public ServiceTypeUpdatedConsumer(IMediator mediator)
         {
-            _schedulesService = schedulesService;
+            _mediator = mediator;
         }
 
         public async Task Consume(ConsumeContext<ServiceTypeUpdated> context)
         {
             var message = context.Message;
 
-            var schedules = await _schedulesService.GetByServiceTypeId(message.Id);
-            foreach (var schedule in schedules)
+            await _mediator.Send(new UpdateServiceTypeScheduleCommand
             {
-                schedule.ServiceName = message.Name;
-            }
-
-            await _schedulesService.UpdateSchedules(schedules);
+                ServiceTypeId = message.Id,
+                ServiceTypeName = message.Name
+            });
         }
     }
 }
