@@ -9,7 +9,7 @@ trigger:
 pool: Default
 
 variables:
-  buildConfiguration: 'Release'
+  buildConfiguration: 'Development'
 
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
