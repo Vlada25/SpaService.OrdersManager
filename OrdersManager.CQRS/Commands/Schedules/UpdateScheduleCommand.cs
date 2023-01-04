@@ -1,9 +1,10 @@
-﻿namespace OrdersManager.DTO.Schedule
+﻿using MediatR;
+
+namespace OrdersManager.CQRS.Commands.Schedules
 {
-    public class ScheduleForUpdateDto
+    public class UpdateScheduleCommand : IRequest<bool>
     {
-        public Guid MasterId { get; set; }
-        public Guid ServiceId { get; set; }
+        public Guid Id { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string MasterSurname { get; set; }

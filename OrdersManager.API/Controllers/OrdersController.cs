@@ -1,7 +1,7 @@
-﻿using MassTransit;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OrdersManager.DTO.Order;
-using OrdersManager.Interfaces.Services;
+using OrdersManager.CQRS.Commands.Orders;
+using OrdersManager.CQRS.Queries.Orders;
 
 namespace OrdersManager.API.Controllers
 {
@@ -9,11 +9,11 @@ namespace OrdersManager.API.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly IOrdersService _ordersService;
+        private readonly IMediator _mediator;
 
-        public OrdersController(IOrdersService ordersService)
+        public OrdersController(IMediator mediator)
         {
-            _ordersService = ordersService;
+            _mediator = mediator;
         }
 
         #region CRUD
@@ -21,7 +21,7 @@ namespace OrdersManager.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var orders = await _ordersService.GetAll();
+            var orders = await _mediator.Send(new GetAllOrdersQuery());
 
             return Ok(orders);
         }
@@ -29,7 +29,10 @@ namespace OrdersManager.API.Controllers
         [HttpGet("{id}", Name = "OrderById")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var order = await _ordersService.GetById(id);
+            var order = await _mediator.Send(new GetOrderByIdQuery
+            {
+                Id = id
+            });
 
             if (order == null)
             {
@@ -42,27 +45,28 @@ namespace OrdersManager.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] OrderForCreationDto order)
+        public async Task<IActionResult> Create([FromBody] CreateOrderCommand order)
         {
             if (order == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var orderEntity = await _ordersService.Create(order);
+            var orderEntity = await _mediator.Send(order);
 
             return CreatedAtRoute("OrderById", new { id = orderEntity.Id }, orderEntity);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] OrderForUpdateDto order)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateOrderCommand order)
         {
             if (order == null)
             {
                 return BadRequest("Object sent from client is null");
             }
 
-            var isEntityFound = await _ordersService.Update(id, order);
+            order.Id = id;
+            var isEntityFound = await _mediator.Send(order);
 
             if (!isEntityFound)
             {
@@ -75,7 +79,10 @@ namespace OrdersManager.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var isEntityFound = await _ordersService.Delete(id);
+            var isEntityFound = await _mediator.Send(new DeleteOrderCommand
+            {
+                Id = id
+            });
 
             if (!isEntityFound)
             {
@@ -90,7 +97,10 @@ namespace OrdersManager.API.Controllers
         [HttpGet("Clients/{clientId}")]
         public async Task<IActionResult> GetByClientId(Guid clientId)
         {
-            var orders = await _ordersService.GetByClientId(clientId);
+            var orders = await _mediator.Send(new GetOrdersByClientIdQuery
+            {
+                ClientId = clientId
+            });
 
             return Ok(orders);
         }
@@ -98,7 +108,10 @@ namespace OrdersManager.API.Controllers
         [HttpGet("Schedules/{scheduleId}")]
         public async Task<IActionResult> GetByScheduleId(Guid scheduleId)
         {
-            var order = await _ordersService.GetByScheduleId(scheduleId);
+            var order = await _mediator.Send(new GetOrderByScheduleIdQuery
+            {
+                ScheduleId = scheduleId
+            });
 
             return Ok(order);
         }

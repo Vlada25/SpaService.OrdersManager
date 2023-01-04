@@ -2,8 +2,8 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.HttpOverrides;
 using OrdersManager.API.Extensions;
-using OrdersManager.Domain;
-using System.Reflection;
+using OrdersManager.CQRS;
+using OrdersManager.CQRS.Queries.Feedbacks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +22,10 @@ if (args.Length != 0)
 builder.Services.ConfigureMessageBroker(builder.Configuration);
 
 builder.Services.ConfigureDbServices();
+
+//builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddMediatR(typeof(GetAllFeedbacksQuery).Assembly);
+
 builder.Services.AddControllers(config =>
 {
     config.RespectBrowserAcceptHeader = true;

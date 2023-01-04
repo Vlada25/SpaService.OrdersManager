@@ -1,10 +1,9 @@
 ﻿using FluentValidation;
-using OrdersManager.Domain.Models;
-using OrdersManager.DTO.Schedule;
+using OrdersManager.CQRS.Commands.Schedules;
 
 namespace OrdersManager.API.Validators
 {
-    public class ScheduleForCreationValidator : AbstractValidator<ScheduleForCreationDto>
+    public class ScheduleForCreationValidator : AbstractValidator<CreateScheduleCommand>
     {
         public ScheduleForCreationValidator()
         {

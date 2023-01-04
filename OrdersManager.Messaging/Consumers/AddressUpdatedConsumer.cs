@@ -1,34 +1,28 @@
 ﻿using MassTransit;
-using OrdersManager.Interfaces.Services;
+using MediatR;
+using OrdersManager.CQRS.Commands.Schedules;
 using SpaService.Domain.Messages.Address;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrdersManager.Messaging.Consumers
 {
     public class AddressUpdatedConsumer : IConsumer<AddressUpdated>
     {
-        private readonly ISchedulesService _schedulesService;
+        private readonly IMediator _mediator;
 
-        public AddressUpdatedConsumer(ISchedulesService schedulesService)
+        public AddressUpdatedConsumer(IMediator mediator)
         {
-            _schedulesService = schedulesService;
+            _mediator = mediator;
         }
 
         public async Task Consume(ConsumeContext<AddressUpdated> context)
         {
             var message = context.Message;
 
-            var schedules = await _schedulesService.GetByAddressId(message.Id);
-            foreach (var schedule in schedules)
+            await _mediator.Send(new UpdateAddressScheduleCommand
             {
-                schedule.Address = message.Address;
-            }
-
-            await _schedulesService.UpdateSchedules(schedules);
+                AddressId = message.Id,
+                Address = message.Address
+            });
         }
     }
 }

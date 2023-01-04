@@ -1,6 +1,9 @@
-﻿namespace OrdersManager.DTO.Schedule
+﻿using MediatR;
+using OrdersManager.Domain.Models;
+
+namespace OrdersManager.CQRS.Commands.Schedules
 {
-    public class ScheduleForCreationDto
+    public class CreateScheduleCommand : IRequest<Schedule>
     {
         public Guid MasterId { get; set; }
         public Guid ServiceId { get; set; }
